@@ -27,7 +27,12 @@
 		}
 
 		public static function documentation() {
-			return 'No documentation yet.';
+			if(array_key_exists('markdown', TextformatterManager::listAll())) {
+				$markdown = TextformatterManager::create('markdown');
+				$readme = file_get_contents(EXTENSIONS . '/storage/readme.md');
+				$readme = $markdown->run($readme);
+				return preg_replace('/<h[1-2]>(.*?)<\/h[1-2]>/', '<h3>$1</h3>', $readme);
+			} 
 		}
 
 		public function load() {
