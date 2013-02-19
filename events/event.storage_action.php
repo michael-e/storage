@@ -65,14 +65,14 @@
 		public function load() {
 			if(isset($_REQUEST['storage-action'])) return $this->__trigger();
 		}
-		
+
 		protected function __trigger() {
 			$action = key($_REQUEST['storage-action']);
-			$items = (array)$_REQUEST['storage']; 
+			$items = (array)$_REQUEST['storage'];
 			array_walk_recursive($items, 'General::sanitize');
-			
+
 			$storage = new Storage();
-			
+
 			// Trigger action
 			switch($action) {
 			    case 'set':
@@ -85,15 +85,15 @@
 			    	$storage->drop($items);
 			        break;
 			}
-			
+
 			// Execute event
 			return $this->execute($action, $items, $storage->getErrors());
 		}
-		
+
 		public function execute($action, $items, $errors) {
 			$result = new XMLElement($this->ROOTELEMENT);
 			$result->setAttribute('type', $action);
-			
+
 			// Error
 			if(!empty($errors)) {
 				$result->setAttribute('result', 'error');
@@ -101,7 +101,7 @@
 					$result->appendChild(new XMLElement('message', $error));
 				}
 			}
-			
+
 			// Success
 			else {
 				$result->setAttribute('result', 'success');
@@ -111,9 +111,9 @@
 			$request = new XMLElement('request-values');
 			$result->appendChild($request);
 			Storage::buildXML($request, $items, true);
-			
+
 			// Return result
 			return $result;
 		}
-		
+
 	}

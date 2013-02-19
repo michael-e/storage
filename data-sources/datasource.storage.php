@@ -5,7 +5,7 @@
 	require_once EXTENSIONS . '/storage/lib/class.storage.php';
 
 	Class StorageDatasource extends DataSource implements iDatasource {
-			
+
 		public static function getName() {
 			return __('Storage');
 		}
@@ -20,7 +20,7 @@
 
 		public static function getTemplate(){
 			return EXTENSIONS . '/storage/templates/blueprints.datasource.tpl';
-		}	
+		}
 
 		public function settings() {
 			$settings = array();
@@ -45,36 +45,36 @@
 		public function getSourceColumn($handle) {
 			return 'Storage';
 		}
-		
+
 	/*-------------------------------------------------------------------------
 		Editor
 	-------------------------------------------------------------------------*/
 
 		public static function buildEditor(XMLElement $wrapper, array &$errors = array(), array $settings = null, $handle = null) {
 			$settings = $settings[self::getClass()];
-		
+
 			$fieldset = new XMLElement('fieldset');
 			$fieldset->setAttribute('class', 'settings contextual ' . __CLASS__);
 			$fieldset->appendChild(new XMLElement('legend', self::getName()));
-			
+
 			// Groups
 			$label = new XMLElement('label', __('Filter by Groups') . '<i>' . __('Optional') . '</i>');
 			$input = Widget::Input('fields[' . self::getClass() . '][groups]', $settings['groups']);
 			$label->appendChild($input);
 			$fieldset->appendChild($label);
-			
+
 			// Suggest existing groups
 			$storage = new Storage();
 			$groups = $storage->getGroups();
-			
+
 			if(!empty($groups)) {
 				$tags = new XMLElement('ul', null, array('class' => 'tags'));
 				foreach($groups as $group) {
-					$tags->appendChild(new XMLElement('li', $group));					
+					$tags->appendChild(new XMLElement('li', $group));
 				}
 				$fieldset->appendChild($tags);
 			}
-			
+
 			// Output parameters
 			$input = Widget::Input('fields[' . self::getClass() . '][params]', '1', 'checkbox');
 			if(intval($settings['params']) == 1) {
@@ -86,7 +86,7 @@
 
 			$wrapper->appendChild($fieldset);
 		}
-		
+
 		public static function validate(array &$settings, array &$errors) {
 			return true;
 		}
@@ -108,7 +108,7 @@
 			return sprintf($template,
 				$params['rootelement'],
 				$settings['params']
-			);			
+			);
 		}
 
 	/*-------------------------------------------------------------------------
@@ -119,7 +119,7 @@
 			$result = new XMLElement($this->dsParamROOTELEMENT);
 			$storage = new Storage();
 			$groups = array();
-			
+
 			// Get groups
 			if(!empty($this->dsParamGROUPS)) {
 				foreach($this->dsParamGROUPS as $id) {
@@ -132,7 +132,7 @@
 
 			// Build XML
 			Storage::buildXML($result, $storage->get(), false);
-			
+
 			// Add output parameters
 			if(intval($this->dsParamPARAMS) == 1) {
 				foreach($groups as $name => $values) {
@@ -144,4 +144,4 @@
 		}
 	}
 
-	return 'StorageDatasource';				
+	return 'StorageDatasource';
