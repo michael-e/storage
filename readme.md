@@ -8,7 +8,8 @@ Storage allows the creation of nested data arrays of any kind with three restric
 - Each item can contain a reserved key `count` which is used to store the amount of an item. Storage will automatically recalculate this count on update which is usefull for creating inventories.
 - Each item can contain a reserved key `count-positive` which behaves exactly the same as `count` except that fact, that it doesn't allow negative values. This is usefull for creating shopping carts where clients are not supposed to order negative amount of items.
 
-All count value have to be integers, float values will be considered invalid and will be ignored.
+All count value must be integers, float values will be considered invalid and will be ignored.
+If an item uses `count` and `count-positive` keys, `count` will take precedence and `count-positive` will be ignored.
 
 ## Events
 
