@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension id="storage" status="experimental" xmlns="http://symphony-cms.com/schemas/extension/1.0">
+	<name>Storage</name>
+	<description>Storing data in the session.</description>
+	<authors>
+		<author>
+			<name github="hananils" symphony="hananils">Büro für Web- und Textgestaltung</name>
+		</author>
+		<author>
+			<name github="michael-e" symphony="michael-e">Michael Eichelsdörfer</name>
+		</author>
+	</authors>
+	<releases>
+		<release version="1.0" date="2013-02-18" min="2.3">
+			- Initial release
+		</release>
+	</releases>
+</extension>
