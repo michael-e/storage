@@ -37,7 +37,7 @@
 		protected function __trigger() {
 			$action = key($_REQUEST['storage-action']);
 			$items = (array)$_REQUEST['storage'];
-			$storage = new Storage();
+			$storage = new Storage(isset($_REQUEST['storage-settings']['allow-negative-counts']));
 			
 			// Trigger action
 			switch($action) {
