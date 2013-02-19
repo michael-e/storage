@@ -1,6 +1,6 @@
 # Storage
 
-This Symphony extension creates a front-end storage using native PHP sessions. 
+This Symphony extension creates a front-end storage using native PHP sessions.
 
 Storage allows the creation of nested data arrays of any kind with two restrictions:
 
@@ -25,19 +25,19 @@ These actions can be triggered by either a `POST` or a `GET` request. This form 
 By default, the event makes sure that the item's count will never be lower than zero. If you need negative values, you can add the following to your form:
 
     <input name="storage-settings[allow-negative-counts] value="true" />
-   
+
 If you need different settings for different groups, you'll have to create a custom events using the Storage class.
 
 ## Data Sources
 
-Storage also bundles a custom Data Source interface offering filtering by groups. If no filters have been specified, the Data source will return the full storage. 
+Storage also bundles a custom Data Source interface offering filtering by groups. If no filters have been specified, the Data source will return the full storage.
 
 Optionally, it's possible to output the selected groups as parameters. Those output parameters will follow the Symphony naming convention of `$ds-` + Data Source name + `.` + group name, e. g. `$ds-storage.basket` and will contain the ids of the group's direct child items:
 
 ### Parameter Pool
 
     $ds-storage.basket: 'article1, article2, article3
-    
+
 ### XML
 
     <ds-storage.basket>
@@ -45,4 +45,3 @@ Optionally, it's possible to output the selected groups as parameters. Those out
         <item handle="article2">article2</item>
         <item handle="article3">article3</item>
     </ds-storage.basket>
-    
