@@ -190,6 +190,8 @@ class Storage {
 	 *  If set to true, all counts will be returned with algebraic sign
 	 */
 	public static function itemsToXML($parent, $items, $algebraic = false){
+		if(!is_array($items)) return;
+		
 		foreach($items as $key => $value){
 			$item = new XMLElement('item');
 			$item->setAttribute('id', $key);
