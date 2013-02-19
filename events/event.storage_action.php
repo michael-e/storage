@@ -18,10 +18,6 @@
             );
         }
 
-        public static function getSource() {
-            return 'Storage';
-        }
-
         public static function allowEditorToParse() {
             return false;
         }
