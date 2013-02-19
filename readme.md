@@ -19,7 +19,7 @@ Storage is a standalone class (`/lib/class.storage.php`) that can be used to cre
 - **set-count:** to set new groups and items, replacing existing values and recalculating counts
 - **drop:** to drop entire groups or single items from the storage
 
-These actions can be triggered by either sending a `POST` or a `GET` request. This example form will update a shopping basket by raising the amount of `article1` by 3.
+These actions can be triggered by either sending a `POST` or `GET` request. This example form will update a shopping basket by raising the amount of `article1` by 3.
 
 	<form action="" method="post">
 		<input name="storage[basket][article1][count-positive]" value="3" />
@@ -42,7 +42,7 @@ These actions can be triggered by either sending a `POST` or a `GET` request. Th
 
 Storage also bundles a custom Data Source interface offering filtering by groups. If no filters have been specified, the Data source will return the full storage.
 
-Optionally, it's possible to output the selected groups as parameters. Those output parameters will follow the Symphony naming convention of `$ds-` + Data Source name + `.` + group name, e. g. `$ds-storage.basket` and will contain the ids of the group's direct child items.
+Optionally, it's possible to output the selected groups as parameters. Those output parameters will follow the Symphony naming convention of `$ds-` + `Data Source name` + `.` + `group name`, e. g. `$ds-storage.basket` and will contain the ids of the group's direct child items.
 
 ### Example XML Output
 
