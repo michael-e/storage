@@ -127,26 +127,26 @@
          * @return array $additional
          *  Return the second array with summed counts
          */
-        function recalculateCount($items, $additional){
-            if(is_array($additional)){
-                foreach($additional as $key => $value) {
-                    $isInt = ctype_digit((string)$items[$key]);
+        function recalculateCount($items, $additional) {
+            if(is_array($additional)) {
+                foreach($items as $key => $value) {
+                    $isInt = ctype_digit((string)$value);
 
                     if(is_array($value)) {
-                        $additional[$key] = $this->recalculateCount($value, $items[$key]);
+                        $items[$key] = $this->recalculateCount($value, $additional[$key]);
                     }
                     elseif($key == 'count' && $isInt === true) {
-                        $additional[$key] = intval($items[$key]) + intval($value);
+                        $item[$key] = intval($additional[$key]) + intval($value);
                     }
                     elseif($key == 'count-positive' && $isInt === true) {
-                        $additional[$key] = $this->zeroNegativeCounts(intval($items[$key]) + intval($value));
+                        $items[$key] = $this->zeroNegativeCounts(intval($additional[$key]) + intval($value));
                     }
                     elseif(($key == 'count' || $key == 'count-positive') && $isInt === false) {
                         $this->errors[] = "Invalid count: $items[$key] is not an integer, ignoring value.";
                     }
                 }
             }
-            return $additional;
+            return $items;
         }
 
         /**
@@ -156,7 +156,12 @@
          *  The count
          */
         private function zeroNegativeCounts($count) {
-            if($count < 0) return 0;
+            if($count < 0) {
+                return 0;
+            }
+            else {
+                return $count;
+            }
         }
 
         /**
