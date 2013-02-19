@@ -27,12 +27,39 @@
 		}
 
 		public static function documentation() {
-			if(array_key_exists('markdown', TextformatterManager::listAll())) {
-				$markdown = TextformatterManager::create('markdown');
-				$readme = file_get_contents(EXTENSIONS . '/storage/readme.md');
-				$readme = $markdown->run($readme);
-				return preg_replace('/<h[1-2]>(.*?)<\/h[1-2]>/', '<h3>$1</h3>', $readme);
-			} 
+			return '<p>Storage offers three actions:</p>
+<ul>
+	<li><strong>set:</strong> to set new groups and items, replacing existing values</li>
+	<li><strong>set-count:</strong> to set new groups and items, replacing existing values and recalculating counts</li>
+	<li><strong>drop:</strong> to drop entire groups or single items from the storage</li>
+</ul>
+<p>These actions can be triggered by either sending a <code>POST</code> or <code>GET</code> request. This example form will update a shopping basket by raising the amount of <code>article1</code> by 3.</p>
+<pre><code>&lt;form action=&quot;&quot; method=&quot;post&quot;&gt;
+    &lt;input name=&quot;storage[basket][article1][count-positive]&quot; value=&quot;3&quot; /&gt;
+    &lt;input name=&quot;storage-action[update]&quot; type=&quot;submit&quot; /&gt;
+&lt;/form&gt;</code></pre>
+<h3>Example Output</h3>
+<pre><code>&lt;events&gt;
+    &lt;storage-action type=&quot;set-count&quot; result=&quot;success&quot;&gt;
+        &lt;request-values&gt;
+            &lt;group id=&quot;basket&quot;&gt;
+                &lt;item id=&quot;article1&quot; difference=&quot;+3&quot; /&gt;
+            &lt;/group&gt;
+        &lt;/request-values&gt;
+    &lt;/storage-action&gt;
+&lt;/events&gt;</code></pre>
+<h3>Example Error Output</h3>
+<pre><code>&lt;events&gt;
+    &lt;storage-action type=&quot;set-count&quot; result=&quot;error&quot;&gt;
+        &lt;message&gt;Storage could not be updated.&lt;/message&gt;
+        &lt;message&gt;Invalid count: 3.5 is not an integer, ignoring value.&lt;/message&gt;
+        &lt;request-values&gt;
+            &lt;group id=&quot;basket&quot;&gt;
+                &lt;item id=&quot;article1&quot; difference=&quot;+3.5&quot; /&gt;
+            &lt;/group&gt;
+        &lt;/request-values&gt;
+    &lt;/storage-action&gt;
+&lt;/events&gt;</code></pre>';
 		}
 
 		public function load() {
