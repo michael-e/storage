@@ -26,17 +26,37 @@ These actions can be triggered by either a `POST` or a `GET` request. This form 
 		<input name="storage-action[update]" type="submit" />
 	</form>
 
+### Example Output
+
+    <events>
+        <storage-action type="set-count" result="success">
+            <request-values>
+                <group id="basket">
+                    <item id="article1" difference="+3" />
+                </group>
+            </request-values>
+        </storage-action>
+    </events>
+
 ## Data Sources
 
 Storage also bundles a custom Data Source interface offering filtering by groups. If no filters have been specified, the Data source will return the full storage.
 
-Optionally, it's possible to output the selected groups as parameters. Those output parameters will follow the Symphony naming convention of `$ds-` + Data Source name + `.` + group name, e. g. `$ds-storage.basket` and will contain the ids of the group's direct child items:
+Optionally, it's possible to output the selected groups as parameters. Those output parameters will follow the Symphony naming convention of `$ds-` + Data Source name + `.` + group name, e. g. `$ds-storage.basket` and will contain the ids of the group's direct child items.
 
-### Parameter Pool
+### Example XML Output
+
+    <storage>
+        <group id="basket">
+            <item id="article1" count="4" />
+            <item id="article2" count="8" />
+            <item id="article3" count="11" />
+        </group>
+    </storage>
+
+### Example Parameter Output
 
     $ds-storage.basket: 'article1, article2, article3'
-
-### XML
 
     <ds-storage.basket>
         <item handle="article1">article1</item>
