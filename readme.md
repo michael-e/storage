@@ -21,22 +21,42 @@ Storage is a standalone class (`/lib/class.storage.php`) that can be used to cre
 
 These actions can be triggered by either sending a `POST` or `GET` request. This example form will update a shopping basket by raising the amount of `article1` by 3.
 
-	<form action="" method="post">
-		<input name="storage[basket][article1][count-positive]" value="3" />
-		<input name="storage-action[update]" type="submit" />
-	</form>
+```html
+<form action="" method="post">
+	<input name="storage[basket][article1][count-positive]" value="3" />
+	<input name="storage-action[update]" type="submit" />
+</form>
+```
 
 ### Example Output
 
-    <events>
-        <storage-action type="set-count" result="success">
-            <request-values>
-                <group id="basket">
-                    <item id="article1" difference="+3" />
-                </group>
-            </request-values>
-        </storage-action>
-    </events>
+```xml
+<events>
+    <storage-action type="set-count" result="success">
+        <request-values>
+            <group id="basket">
+                <item id="article1" difference="+3" />
+            </group>
+        </request-values>
+    </storage-action>
+</events>
+```
+
+### Example Error Output
+
+```xml
+<events>
+    <storage-action type="set-count" result="error">
+    	<message>Storage could not be updated.</message>
+    	<message>Invalid count: 3.5 is not an integer, ignoring value.</message>
+        <request-values>
+            <group id="basket">
+                <item id="article1" difference="+3.5" />
+            </group>
+        </request-values>
+    </storage-action>
+</events>
+```
 
 ## Data Sources
 
@@ -46,21 +66,24 @@ Optionally, it's possible to output the selected groups as parameters. Those out
 
 ### Example XML Output
 
-    <storage>
-        <group id="basket">
-            <item id="article1" count="4" />
-            <item id="article2" count="8" />
-            <item id="article3" count="11" />
-        </group>
-    </storage>
+```xml
+<storage>
+    <group id="basket">
+        <item id="article1" count="4" />
+        <item id="article2" count="8" />
+        <item id="article3" count="11" />
+    </group>
+</storage>
 
-    <ds-storage.basket>
-        <item handle="article1">article1</item>
-        <item handle="article2">article2</item>
-        <item handle="article3">article3</item>
-    </ds-storage.basket>    
+<ds-storage.basket>
+    <item handle="article1">article1</item>
+    <item handle="article2">article2</item>
+    <item handle="article3">article3</item>
+</ds-storage.basket>    
+```
 
 ### Example Parameter Output
 
-    $ds-storage.basket: 'article1, article2, article3'
-
+```xml
+$ds-storage.basket: 'article1, article2, article3'
+```
