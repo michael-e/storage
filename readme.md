@@ -8,7 +8,7 @@ Storage allows the creation of nested data arrays of any kind with three restric
 - Each item can contain a reserved key `count` which is used to store the amount of an item. Storage will automatically recalculate this count on update which is usefull for creating inventories.
 - Each item can contain a reserved key `count-positive` which behaves exactly the same as `count` except that fact, that it doesn't allow negative values. This is usefull for creating shopping carts where clients are not supposed to order negative amount of items.
 
-All count value must be integers, float values will be considered invalid and will be ignored.
+All count values must be integers, float values will be considered invalid and will be ignored.
 If an item uses `count` and `count-positive` keys, `count` will take precedence and `count-positive` will be ignored.
 
 ## Events
@@ -19,7 +19,7 @@ Storage is a standalone class (`/lib/class.storage.php`) that can be used to cre
 - **set-count:** to set new groups and items, replacing existing values and recalculating counts
 - **drop:** to drop entire groups or single items from the storage
 
-These actions can be triggered by either a `POST` or a `GET` request. This form for example will update a shopping basket by raising the amount of `article1` by 5.
+These actions can be triggered by either sending a `POST` or a `GET` request. This example form will update a shopping basket by raising the amount of `article1` by 3.
 
 	<form action="" method="post">
 		<input name="storage[basket][article1][count-positive]" value="3" />
