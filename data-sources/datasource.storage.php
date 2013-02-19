@@ -136,7 +136,7 @@
 			// Add output parameters
 			if(intval($this->dsParamPARAMS) == 1) {
 				foreach($groups as $name => $values) {
-					$param_pool['ds-' . $this->dsParamROOTELEMENT . '.' . $name] = array_keys($values);
+					$param_pool['ds-' . $this->dsParamROOTELEMENT . '.' . $name] = array_keys((array)$values);
 				}
 			}
 
