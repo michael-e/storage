@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension id="storage" status="experimental" xmlns="http://symphony-cms.com/schemas/extension/1.0">
+<extension id="storage" status="released" xmlns="http://symphony-cms.com/schemas/extension/1.0">
 	<name>Storage</name>
 	<description>Storing data in the session.</description>
 	<authors>
@@ -11,7 +11,7 @@
 		</author>
 	</authors>
 	<releases>
-		<release version="1.0" date="2013-02-18" min="2.3">
+		<release version="1.0" date="2013-02-19" min="2.3">
 			- Initial release
 		</release>
 	</releases>
