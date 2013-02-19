@@ -76,10 +76,12 @@
 			// Success
 			else {
 				$result->setAttribute('result', 'success');
-				$request = new XMLElement('request-values');
-				$result->appendChild($request);
-				Storage::buildXML($request, $items, true);
 			}
+
+			// Return request
+			$request = new XMLElement('request-values');
+			$result->appendChild($request);
+			Storage::buildXML($request, $items, true);
 			
 			// Return result
 			return $result;
