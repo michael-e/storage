@@ -124,19 +124,22 @@ class Storage {
 	 * @return array $additional
 	 *  Return the second array with summed counts 
 	 */
-	function recalculateCount($existing, $additional){
+	function recalculateCount($items, $additional){
 		if(is_array($additional)){
 			foreach($additional as $key => $value) {
-				$isInt = ctype_digit((string)$value);
+				$isInt = ctype_digit((string)$items[$key]);
 			
 				if(is_array($value)) {
-					$additional[$key] = $this->recalculateCount($value, $existing[$key]);
+					$additional[$key] = $this->recalculateCount($value, $items[$key]);
 				}
 				elseif($key == 'count' && $isInt === true) {
-					$additional[$key] = intval($existing[$key]) + intval($value);
+					$additional[$key] = intval($items[$key]) + intval($value);
 				}
 				elseif($key == 'count-positive' && $isInt === true) {
-					$additional[$key] = $this->zeroNegativeCounts(intval($existing[$key]) + intval($value));
+					$additional[$key] = $this->zeroNegativeCounts(intval($items[$key]) + intval($value));
+				}
+				elseif(($key == 'count' || $key == 'count-positive') && $isInt === false) {
+					$this->errors[] = "Invalid count: $items[$key] is not an integer, ignoring value.";
 				}
 			}
 		}
