@@ -1,29 +1,29 @@
 <?php
 
-	require_once EXTENSIONS . '/storage/data-sources/datasource.storage.php';
+    require_once EXTENSIONS . '/storage/data-sources/datasource.storage.php';
 
-	Class Extension_Storage extends Extension {
+    Class Extension_Storage extends Extension {
 
-		private static $provides = array();
+        private static $provides = array();
 
-		public static function registerProviders() {
-			self::$provides = array(
-				'data-sources' => array(
-					'StorageDatasource' => StorageDatasource::getName()
-				)
-			);
+        public static function registerProviders() {
+            self::$provides = array(
+                'data-sources' => array(
+                    'StorageDatasource' => StorageDatasource::getName()
+                )
+            );
 
-			return true;
-		}
+            return true;
+        }
 
-		public static function providerOf($type = null) {
-			self::registerProviders();
+        public static function providerOf($type = null) {
+            self::registerProviders();
 
-			if(is_null($type)) return self::$provides;
+            if(is_null($type)) return self::$provides;
 
-			if(!isset(self::$provides[$type])) return array();
+            if(!isset(self::$provides[$type])) return array();
 
-			return self::$provides[$type];
-		}
+            return self::$provides[$type];
+        }
 
-	}
+    }

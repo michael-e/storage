@@ -1,37 +1,37 @@
 <?php
 
-	require_once(TOOLKIT . '/class.event.php');
-	require_once(EXTENSIONS . '/storage/lib/class.storage.php');
+    require_once(TOOLKIT . '/class.event.php');
+    require_once(EXTENSIONS . '/storage/lib/class.storage.php');
 
-	Class eventstorage_action extends Event {
+    Class eventstorage_action extends Event {
 
-		public $ROOTELEMENT = 'storage-action';
+        public $ROOTELEMENT = 'storage-action';
 
-		public static function about() {
-			return array(
-				'name' => 'Storage Action',
-				'author' => array(
-					'name' => 'Büro für Web- und Textgestaltung',
-					'website' => 'http://hananils.de',
-					'email' => 'buero@hananils.de'),
-				'trigger-condition' => 'storage-action'
-			);
-		}
+        public static function about() {
+            return array(
+                'name' => 'Storage Action',
+                'author' => array(
+                    'name' => 'Büro für Web- und Textgestaltung',
+                    'website' => 'http://hananils.de',
+                    'email' => 'buero@hananils.de'),
+                'trigger-condition' => 'storage-action'
+            );
+        }
 
-		public static function getSource() {
-			return 'Storage';
-		}
+        public static function getSource() {
+            return 'Storage';
+        }
 
-		public static function allowEditorToParse() {
-			return false;
-		}
+        public static function allowEditorToParse() {
+            return false;
+        }
 
-		public static function documentation() {
-			return '<p>Storage offers three actions:</p>
+        public static function documentation() {
+            return '<p>Storage offers three actions:</p>
 <ul>
-	<li><strong>set:</strong> to set new groups and items, replacing existing values</li>
-	<li><strong>set-count:</strong> to set new groups and items, replacing existing values and recalculating counts</li>
-	<li><strong>drop:</strong> to drop entire groups or single items from the storage</li>
+    <li><strong>set:</strong> to set new groups and items, replacing existing values</li>
+    <li><strong>set-count:</strong> to set new groups and items, replacing existing values and recalculating counts</li>
+    <li><strong>drop:</strong> to drop entire groups or single items from the storage</li>
 </ul>
 <p>These actions can be triggered by either sending a <code>POST</code> or <code>GET</code> request. This example form will update a shopping basket by raising the amount of <code>article1</code> by 3.</p>
 <pre><code>&lt;form action=&quot;&quot; method=&quot;post&quot;&gt;
@@ -60,60 +60,60 @@
         &lt;/request-values&gt;
     &lt;/storage-action&gt;
 &lt;/events&gt;</code></pre>';
-		}
+        }
 
-		public function load() {
-			if(isset($_REQUEST['storage-action'])) return $this->__trigger();
-		}
+        public function load() {
+            if(isset($_REQUEST['storage-action'])) return $this->__trigger();
+        }
 
-		protected function __trigger() {
-			$action = key($_REQUEST['storage-action']);
-			$items = (array)$_REQUEST['storage'];
-			array_walk_recursive($items, 'General::sanitize');
+        protected function __trigger() {
+            $action = key($_REQUEST['storage-action']);
+            $items = (array)$_REQUEST['storage'];
+            array_walk_recursive($items, 'General::sanitize');
 
-			$storage = new Storage();
+            $storage = new Storage();
 
-			// Trigger action
-			switch($action) {
-			    case 'set':
-			    	$storage->set($items);
-			        break;
-			    case 'set-count':
-			    	$storage->setCount($items);
-			        break;
-			    case 'drop':
-			    	$storage->drop($items);
-			        break;
-			}
+            // Trigger action
+            switch($action) {
+                case 'set':
+                    $storage->set($items);
+                    break;
+                case 'set-count':
+                    $storage->setCount($items);
+                    break;
+                case 'drop':
+                    $storage->drop($items);
+                    break;
+            }
 
-			// Execute event
-			return $this->execute($action, $items, $storage->getErrors());
-		}
+            // Execute event
+            return $this->execute($action, $items, $storage->getErrors());
+        }
 
-		public function execute($action, $items, $errors) {
-			$result = new XMLElement($this->ROOTELEMENT);
-			$result->setAttribute('type', $action);
+        public function execute($action, $items, $errors) {
+            $result = new XMLElement($this->ROOTELEMENT);
+            $result->setAttribute('type', $action);
 
-			// Error
-			if(!empty($errors)) {
-				$result->setAttribute('result', 'error');
-				foreach($errors as $error) {
-					$result->appendChild(new XMLElement('message', $error));
-				}
-			}
+            // Error
+            if(!empty($errors)) {
+                $result->setAttribute('result', 'error');
+                foreach($errors as $error) {
+                    $result->appendChild(new XMLElement('message', $error));
+                }
+            }
 
-			// Success
-			else {
-				$result->setAttribute('result', 'success');
-			}
+            // Success
+            else {
+                $result->setAttribute('result', 'success');
+            }
 
-			// Return request
-			$request = new XMLElement('request-values');
-			$result->appendChild($request);
-			Storage::buildXML($request, $items, true);
+            // Return request
+            $request = new XMLElement('request-values');
+            $result->appendChild($request);
+            Storage::buildXML($request, $items, true);
 
-			// Return result
-			return $result;
-		}
+            // Return result
+            return $result;
+        }
 
-	}
+    }
