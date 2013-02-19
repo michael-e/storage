@@ -205,13 +205,16 @@ class Storage {
 			
 			// Count
 			elseif($key == 'count' || $key == 'count-positive') {
-				if($algebraic === true && $value > 0) {
-					$value = '+' . $value;
+				$count = 'count';
+				
+				if($algebraic === true) {
+					$count = 'difference';
+					if($value > 0) $value = '+' . $value;
 				}
-				if(empty($value)) {
-					$value = 0;
-				}
-				$parent->setAttribute('count', $value);
+				
+				if(empty($value)) $value = 0;
+				
+				$parent->setAttribute($count, $value);
 			}
 			
 			// Final value
