@@ -51,11 +51,11 @@
 			    case 'set':
 			    	$storage->set($items);
 			        break;
-			    case 'update':
-			    	$storage->update($items);
+			    case 'set-count':
+			    	$storage->setCount($items);
 			        break;
-			    case 'delete':
-			    	$storage->delete($items);
+			    case 'drop':
+			    	$storage->drop($items);
 			        break;
 			}
 			

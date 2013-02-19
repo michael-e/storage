@@ -19,18 +19,9 @@ class Storage {
 	private $error = '';
 	
 	/**
-	 * This variable determines, if the storage counts can become negative or not.
-	 * If negative counts are not allowed, those values will be set to 0.
-	 *
-	 * @var boolean
-	 */
-	private $allowNegativeCounts = false;
-	
-	/**
 	 * Initialise storage, retaining existing data.
      */
-	public function __construct($allowNegativeCounts = false) {
-		$this->allowNegativeCounts = $allowNegativeCounts;
+	public function __construct() {
 		session_start();
 		$this->storage = &$_SESSION['storage'];
 	}
@@ -61,21 +52,12 @@ class Storage {
 	 *
 	 * @param array $items
 	 *  New data
-	 * @param boolean $update
-	 *  If the flag is set to true, counts will be recalculated
 	 */
 	public function set($items = array()) {
 		$storage = array_replace_recursive($this->storage, (array)$items);
 		
-		// Merge complete
+		// Set storage
 		if($storage !== null) {
-		
-			// Zero negative counts
-			if($this->allowNegativeCounts === false) {
-				array_walk_recursive($storage, 'Storage::zeroNegativeCounts');
-			}
-			
-			// Update storage
 			$this->storage = $storage;
 		}
 		
@@ -86,25 +68,25 @@ class Storage {
 	}
 	
 	/**
-	 * Update storage data and recalculate counts.
+	 * Set storage data and recalculate counts.
 	 *
 	 * @param array $items
 	 *  Updated data
 	 */	
-	public function update($items = array()) {
+	public function setCount($items = array()) {
 		$items = $this->recalculateCount($items, $this->storage);
 		$this->set($items);
 	}
 		
 	/**
-	 * Delete given keys from the storage
+	 * Drop given keys from the storage
 	 *
 	 * @param array $items
-	 *  The items that should be deleted.
+	 *  The items that should be dropped.
 	 */
-	public function delete($items = array()) {
+	public function drop($items = array()) {
 	
-		// Delete specified keys
+		// Drop specified keys
 		if(isset($items)) {
 			$this->storage = array_diff_key($this->storage, (array)$items);
 		}
@@ -145,29 +127,30 @@ class Storage {
 	function recalculateCount($existing, $additional){
 		if(is_array($additional)){
 			foreach($additional as $key => $value) {
+				$isInt = ctype_digit((string)$value);
+			
 				if(is_array($value)) {
 					$additional[$key] = $this->recalculateCount($value, $existing[$key]);
 				}
-				elseif($key == 'count') {
+				elseif($key == 'count' && $isInt === true) {
 					$additional[$key] = intval($existing[$key]) + intval($value);
+				}
+				elseif($key == 'count-positive' && $isInt === true) {
+					$additional[$key] = $this->zeroNegativeCounts(intval($existing[$key]) + intval($value));
 				}
 			}
 		}
 		return $additional;
-	}	 
+	}
 	
 	/**
 	 * Zero negative counts.
 	 *
-	 * @param mixed $item
-	 *  The value, passed by reference
-	 * @param mixed $key
-	 *  The key
+	 * @param int $count
+	 *  The count
 	 */
-	private static function zeroNegativeCounts(&$item, $key) {
-		if($key == 'count' && intval($item) < 0) {
-			$item = 0;
-		}
+	private function zeroNegativeCounts($count) {
+		if($count < 0) return 0;
 	}
 
 	/**
@@ -215,11 +198,14 @@ class Storage {
 			}
 			
 			// Count
-			elseif($key == 'count') {
-				if($algebraic === true) {
-					$count = ($value > 0) ? '+' . $value : $value;
+			elseif($key == 'count' || $key == 'count-positive') {
+				if($algebraic === true && $value > 0) {
+					$value = '+' . $value;
 				}
-				$parent->setAttribute('count', $count);
+				if(empty($value)) {
+					$value = 0;
+				}
+				$parent->setAttribute('count', $value);
 			}
 			
 			// Final value

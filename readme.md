@@ -2,31 +2,28 @@
 
 This Symphony extension creates a front-end storage using native PHP sessions.
 
-Storage allows the creation of nested data arrays of any kind with two restrictions:
+Storage allows the creation of nested data arrays of any kind with three restrictions:
 
-- The first key level in the storage array is considered as group name, this allows the creation of different storage context. For example a shopping cart and a list of user settings.
-- Each item can contain a reserved key `count` which is used to store the amount of an item. This is usefull for creating shopping carts or similar. Storage offers functions that automatically recalculate the amount on update.
+- The first key level in the storage array is considered the group name, this allows the creation of different storage contexts. For example a shopping cart and a list of user settings.
+- Each item can contain a reserved key `count` which is used to store the amount of an item. Storage will automatically recalculate this count on update which is usefull for creating inventories.
+- Each item can contain a reserved key `count-positive` which behaves exactly the same as `count` except that fact, that it doesn't allow negative values. This is usefull for creating shopping carts where clients are not supposed to order negative amount of items.
+
+All count value have to be integers, float values will be considered invalid and will be ignored.
 
 ## Events
 
 Storage is a standalone class (`/lib/class.storage.php`) that can be used to create custom events. But the extension bundles a default event that should be sufficient for most cases. It offers three actions:
 
-- **set:** to set new groups and items and replacing existing values
-- **update:** to set new groups and item and replace existing values with updated item counts
-- **delete:** to delete entire groups or single items
+- **set:** to set new groups and items, replacing existing values
+- **set-count:** to set new groups and items, replacing existing values and recalculating counts
+- **drop:** to drop entire groups or single items from the storage
 
 These actions can be triggered by either a `POST` or a `GET` request. This form for example will update a shopping basket by raising the amount of `article1` by 5.
 
 	<form action="" method="post">
-		<input name="storage[basket][article1][count]" value="5" />
+		<input name="storage[basket][article1][count-positive]" value="5" />
 		<input name="storage-action[update]" type="submit" />
 	</form>
-
-By default, the event makes sure that the item's count will never be lower than zero. If you need negative values, you can add the following to your form:
-
-    <input name="storage-settings[allow-negative-counts] value="true" />
-
-If you need different settings for different groups, you'll have to create a custom events using the Storage class.
 
 ## Data Sources
 
@@ -36,7 +33,7 @@ Optionally, it's possible to output the selected groups as parameters. Those out
 
 ### Parameter Pool
 
-    $ds-storage.basket: 'article1, article2, article3
+    $ds-storage.basket: 'article1, article2, article3'
 
 ### XML
 
