@@ -14,9 +14,9 @@ class Storage {
 	/**
 	 * The error log.
 	 *
-	 * @var string
+	 * @var array
 	 */
-	private $error = '';
+	private $errors = array();
 	
 	/**
 	 * Initialise storage, retaining existing data.
@@ -63,7 +63,7 @@ class Storage {
 		
 		// Log error
 		else {
-			$this->error = 'Storage could not be updated.';
+			$this->errors[] = 'Storage could not be updated.';
 		}
 	}
 	
@@ -100,8 +100,8 @@ class Storage {
 	/**
 	 * Get error.
 	 */	
-	public function getError() {
-		return $this->error;
+	public function getErrors() {
+		return $this->errors;
 	}
 	
 	/**

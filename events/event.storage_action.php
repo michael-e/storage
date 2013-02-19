@@ -60,17 +60,19 @@
 			}
 			
 			// Execute event
-			return $this->execute($action, $items, $storage->getError());
+			return $this->execute($action, $items, $storage->getErrors());
 		}
 		
-		public function execute($action, $items, $error) {
+		public function execute($action, $items, $errors) {
 			$result = new XMLElement($this->ROOTELEMENT);
 			$result->setAttribute('type', $action);
 			
 			// Error
-			if(!empty($error)) {
+			if(!empty($errors)) {
 				$result->setAttribute('result', 'error');
-				$result->appendChild(new XMLElement('message', $error));
+				foreach($errors as $error) {
+					$result->appendChild(new XMLElement('message', $error));
+				}
 			}
 			
 			// Success
