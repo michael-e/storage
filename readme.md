@@ -54,12 +54,13 @@ Optionally, it's possible to output the selected groups as parameters. Those out
         </group>
     </storage>
 
-### Example Parameter Output
-
-    $ds-storage.basket: 'article1, article2, article3'
-
     <ds-storage.basket>
         <item handle="article1">article1</item>
         <item handle="article2">article2</item>
         <item handle="article3">article3</item>
-    </ds-storage.basket>
+    </ds-storage.basket>    
+
+### Example Parameter Output
+
+    $ds-storage.basket: 'article1, article2, article3'
+
