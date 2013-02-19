@@ -117,8 +117,8 @@ class Storage {
 	/**
 	 * Recalculate storage counts
 	 *
-	 * @param array $existing
-	 *  The array existing amounts
+	 * @param array $items
+	 *  The items array
 	 * @param array $additional
 	 *  The array with additional amounts
 	 * @return array $additional
@@ -167,6 +167,7 @@ class Storage {
 	 *  If set to true, all counts will be returned with algebraic sign
 	 */
 	public static function buildXML($parent, $items, $algebraic = false) {
+		if(!is_array($items)) return;
 	
 		// Create groups
 		foreach($items as $key => $values) {
