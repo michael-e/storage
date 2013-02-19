@@ -24,9 +24,8 @@
          */
         public function __construct() {
             session_start();
-            if(!empty($_SESSION['storage'])) {
-            	$this->storage = &$_SESSION['storage'];
-        	}
+        	$this->storage = &$_SESSION['storage'];
+        	if(!is_array($this->storage)) $this->storage = (array)$this->storage;
         }
 
         /**
