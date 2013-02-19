@@ -22,7 +22,7 @@ Storage is a standalone class (`/lib/class.storage.php`) that can be used to cre
 These actions can be triggered by either a `POST` or a `GET` request. This form for example will update a shopping basket by raising the amount of `article1` by 5.
 
 	<form action="" method="post">
-		<input name="storage[basket][article1][count-positive]" value="5" />
+		<input name="storage[basket][article1][count-positive]" value="3" />
 		<input name="storage-action[update]" type="submit" />
 	</form>
 
