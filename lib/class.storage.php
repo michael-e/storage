@@ -31,7 +31,7 @@
         /**
          * Get storage data, optionally filtered by group.
          *
-         * @param mixed $namespace
+         * @param mixed $group
          *  Storage namespace, optional
          * @return array
          *  Associative storage array
@@ -121,24 +121,24 @@
          *
          * @param array $items
          *  The items array
-         * @param array $additional
-         *  The array with additional amounts
-         * @return array $additional
-         *  Return the second array with summed counts
+         * @param array $storage
+         *  The storage context
+         * @return array
+         *  Returns items with recalculated counts
          */
-        function recalculateCount($items, $additional) {
-            if(is_array($additional)) {
+        function recalculateCount($items, $storage) {
+            if(is_array($storage)) {
                 foreach($items as $key => $value) {
                     $isInt = ctype_digit((string)$value);
 
                     if(is_array($value)) {
-                        $items[$key] = $this->recalculateCount($value, $additional[$key]);
+                        $items[$key] = $this->recalculateCount($value, $storage[$key]);
                     }
                     elseif($key == 'count' && $isInt === true) {
-                        $item[$key] = intval($additional[$key]) + intval($value);
+                        $item[$key] = intval($storage[$key]) + intval($value);
                     }
                     elseif($key == 'count-positive' && $isInt === true) {
-                        $items[$key] = $this->zeroNegativeCounts(intval($additional[$key]) + intval($value));
+                        $items[$key] = $this->zeroNegativeCounts(intval($storage[$key]) + intval($value));
                     }
                     elseif(($key == 'count' || $key == 'count-positive') && $isInt === false) {
                         $this->errors[] = "Invalid count: $items[$key] is not an integer, ignoring value.";
