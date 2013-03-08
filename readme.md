@@ -24,7 +24,7 @@ These actions can be triggered by either sending a `POST` or `GET` request. This
 ```html
 <form action="" method="post">
 	<input name="storage[basket][article1][count-positive]" value="3" />
-	<input name="storage-action[update]" type="submit" />
+	<input name="storage-action[set-count]" type="submit" />
 </form>
 ```
 
