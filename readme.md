@@ -13,11 +13,12 @@ If an item uses `count` and `count-positive` keys, `count` will take precedence 
 
 ## Events
 
-Storage is a standalone class (`/lib/class.storage.php`) that can be used to create custom events. But the extension bundles a default event that should be sufficient for most cases. It offers three actions:
+Storage is a standalone class (`/lib/class.storage.php`) that can be used to create custom events. But the extension bundles a default event that should be sufficient for most cases. It offers four actions:
 
 - **set:** to set new groups and items, replacing existing values
 - **set-count:** to set new groups and items, replacing existing values and recalculating counts
 - **drop:** to drop entire groups or single items from the storage
+- **drop-all:** to drop the storage completely
 
 These actions can be triggered by either sending a `POST` or `GET` request. This example form will update a shopping basket by raising the amount of `article1` by 3.
 
