@@ -36,7 +36,9 @@ These actions can be triggered by either sending a `POST` or `GET` request. This
     <storage-action type="set-count" result="success">
         <request-values>
             <group id="basket">
-                <item id="article1" difference="+3" />
+                <item id="article1">
+                    <item id="count-postive">3</item>
+                </item>
             </group>
         </request-values>
     </storage-action>
@@ -52,7 +54,9 @@ These actions can be triggered by either sending a `POST` or `GET` request. This
     	<message>Invalid count: 3.5 is not an integer, ignoring value.</message>
         <request-values>
             <group id="basket">
-                <item id="article1" difference="+3.5" />
+                <item id="article1">
+                    <item id="count-postive">3.5</item>
+                </item>
             </group>
         </request-values>
     </storage-action>
