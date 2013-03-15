@@ -87,16 +87,16 @@
          *  The items that should be dropped.
          */
         public function drop($items = array()) {
-
-            // Drop specified keys
             if(isset($items)) {
                 $this->storage = array_diff_key($this->storage, (array)$items);
             }
+        }
 
-            // Empty storage
-            else {
-                $this->storage = array();
-            }
+        /**
+         * Drop the storage (all items)
+         */
+        public function dropAll() {
+            $this->storage = array();
         }
 
         /**

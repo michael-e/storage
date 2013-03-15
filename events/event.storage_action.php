@@ -86,6 +86,9 @@
                 case 'drop':
                     $storage->drop($items);
                     break;
+                case 'drop-all':
+                    $storage->dropAll();
+                    break;
             }
 
             // Execute event
