@@ -76,7 +76,7 @@
          *  Updated data
          */
         public function setCount($items = array()) {
-            $items = $this->recalculateCount($items, $this->_storage);
+            $items = $this->recalculateCount($this->_storage, $items);
             $this->set($items);
         }
 
@@ -149,13 +149,13 @@
          * @return array
          *  Returns items with recalculated counts
          */
-        function recalculateCount($items, $storage = array()) {
+        function recalculateCount($storage = array(), $items) {
             if(is_array($items)) {
                 foreach($items as $key => $value) {
                     $isInt = ctype_digit((string)$value);
 
                     if(is_array($value)) {
-                        $items[$key] = $this->recalculateCount($value, $storage[$key]);
+                        $items[$key] = $this->recalculateCount($storage[$key], $value);
                     }
                     elseif($key == 'count' && $isInt === true) {
                         $items[$key] = intval($storage[$key]) + intval($value);
