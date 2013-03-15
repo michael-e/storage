@@ -135,7 +135,7 @@
                         $items[$key] = $this->recalculateCount($value, $storage[$key]);
                     }
                     elseif($key == 'count' && $isInt === true) {
-                        $item[$key] = intval($storage[$key]) + intval($value);
+                        $items[$key] = intval($storage[$key]) + intval($value);
                     }
                     elseif($key == 'count-positive' && $isInt === true) {
                         $items[$key] = $this->zeroNegativeCounts(intval($storage[$key]) + intval($value));
