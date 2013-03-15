@@ -10,22 +10,22 @@
          *
          * @var array
          */
-        private $storage = array();
+        private $_storage = array();
 
         /**
          * The error log.
          *
          * @var array
          */
-        private $errors = array();
+        private $_errors = array();
 
         /**
          * Initialise storage, retaining existing data.
          */
         public function __construct() {
             session_start();
-            $this->storage = &$_SESSION['storage'];
-            if(!is_array($this->storage)) $this->storage = (array)$this->storage;
+            $this->_storage = &$_SESSION['storage'];
+            if(!is_array($this->_storage)) $this->_storage = (array)$this->_storage;
         }
 
         /**
@@ -40,12 +40,12 @@
 
             // Return filtered storage
             if(isset($group)) {
-                return $this->storage[$group];
+                return $this->_storage[$group];
             }
 
             // Return complete storage
             else {
-                return $this->storage;
+                return $this->_storage;
             }
         }
 
@@ -56,16 +56,16 @@
          *  New data
          */
         public function set($items = array()) {
-            $storage = array_replace_recursive($this->storage, (array)$items);
+            $storage = array_replace_recursive($this->_storage, (array)$items);
 
             // Set storage
             if($storage !== null) {
-                $this->storage = $storage;
+                $this->_storage = $storage;
             }
 
             // Log error
             else {
-                $this->errors[] = 'Storage could not be updated.';
+                $this->_errors[] = 'Storage could not be updated.';
             }
         }
 
@@ -76,7 +76,7 @@
          *  Updated data
          */
         public function setCount($items = array()) {
-            $items = $this->recalculateCount($items, $this->storage);
+            $items = $this->recalculateCount($items, $this->_storage);
             $this->set($items);
         }
 
@@ -87,7 +87,7 @@
          *  The items that should be dropped
          **/
         public function drop($items = array()){
-            $this->storage = $this->dropFromArray($this->storage, $items);
+            $this->_storage = $this->dropFromArray($this->_storage, $items);
         }
 
         /**
@@ -119,14 +119,14 @@
          * Drop all items from the storage.
          */
         public function dropAll() {
-            $this->storage = array();
+            $this->_storage = array();
         }
 
         /**
          * Get error.
          */
         public function getErrors() {
-            return $this->errors;
+            return $this->_errors;
         }
 
         /**
@@ -136,7 +136,7 @@
          *  Return all existing groups as array
          */
         public function getGroups() {
-            return array_keys($this->storage);
+            return array_keys($this->_storage);
         }
 
         /**
@@ -164,7 +164,7 @@
                         $items[$key] = $this->noNegativeCounts(intval($storage[$key]) + intval($value));
                     }
                     elseif(($key == 'count' || $key == 'count-positive') && $isInt === false) {
-                        $this->errors[] = "Invalid count: $items[$key] is not an integer, ignoring value.";
+                        $this->_errors[] = "Invalid count: $items[$key] is not an integer, ignoring value.";
                         $items[$key] = intval($storage[$key]);
                     }
                 }
