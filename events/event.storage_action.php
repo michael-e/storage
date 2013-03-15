@@ -73,26 +73,26 @@
             $items = (array)$_REQUEST['storage'];
             array_walk_recursive($items, 'General::sanitize');
 
-            $storage = new Storage();
+            $s = new Storage();
 
             // Trigger action
             switch($action) {
                 case 'set':
-                    $storage->set($items);
+                    $s->set($items);
                     break;
                 case 'set-count':
-                    $storage->setCount($items);
+                    $s->setCount($items);
                     break;
                 case 'drop':
-                    $storage->drop($items);
+                    $s->drop($items);
                     break;
                 case 'drop-all':
-                    $storage->dropAll();
+                    $s->dropAll();
                     break;
             }
 
             // Execute event
-            return $this->execute($action, $items, $storage->getErrors());
+            return $this->execute($action, $items, $s->getErrors());
         }
 
         public function execute($action, $items, $errors) {
