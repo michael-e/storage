@@ -81,19 +81,42 @@
         }
 
         /**
-         * Drop given keys from the storage
+         * Drop given items from the storage.
          *
          * @param array $items
-         *  The items that should be dropped.
-         */
-        public function drop($items = array()) {
-            if(isset($items)) {
-                $this->storage = array_diff_key($this->storage, (array)$items);
-            }
+         *  The items that should be dropped
+         **/
+        public function drop($items = array()){
+            $this->storage = $this->dropFromArray($this->storage, $items);
         }
 
         /**
-         * Drop the storage (all items)
+         * Drop key/value pairs from an existing array based on the keys
+         * of a second array.
+         *
+         * @param array $array1
+         *  The existing (e.g. session) array
+         * @param array $array2
+         *  The second (e.g. request data) array
+         * @return array
+         *  The updated array
+         **/
+        function dropFromArray($array1 = array(), $array2 = array()){
+            if(is_array($array2)){
+                foreach($array2 as $key => $value){
+                    if(is_array($value)){
+                        $array1[$key] = $this->dropFromArray($value, $array1[$key]);
+                    }
+                    else{
+                        unset($array1[$key]);
+                    }
+                }
+            }
+            return $array1;
+        }
+
+        /**
+         * Drop all items from the storage.
          */
         public function dropAll() {
             $this->storage = array();
