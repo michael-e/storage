@@ -170,10 +170,10 @@
          *  The element the items should be added to
          * @param array $items
          *  The items array
-         * @param boolean $algebraic
-         *  If set to true, all counts will be returned with algebraic sign
+         * @param boolean $count_as_attribute
+         *  If set to true, counts will be added as attributes
          */
-        public static function buildXML($parent, $items, $algebraic = false) {
+        public static function buildXML($parent, $items, $count_as_attribute = false) {
             if(!is_array($items)) return;
 
             // Create groups
@@ -183,7 +183,7 @@
                 $parent->appendChild($group);
 
                 // Append items
-                Storage::itemsToXML($group, $values, $algebraic);
+                Storage::itemsToXML($group, $values, $count_as_attribute);
             }
         }
 
@@ -194,10 +194,10 @@
          *  The element the items should be added to
          * @param array $items
          *  The items array
-         * @param boolean $algebraic
-         *  If set to true, all counts will be returned with algebraic sign
+         * @param boolean $count_as_attribute
+         *  If set to true, counts will be added as attributes
          */
-        public static function itemsToXML($parent, $items, $algebraic = false){
+        public static function itemsToXML($parent, $items, $count_as_attribute = false){
             if(!is_array($items)) return;
 
             foreach($items as $key => $value){
@@ -206,25 +206,17 @@
 
                 // Nested items
                 if(is_array($value)) {
-                    Storage::itemsToXML($item, $value, $algebraic);
+                    Storage::itemsToXML($item, $value, $count_as_attribute);
                     $parent->appendChild($item);
                 }
 
-                // Count
-                elseif($key == 'count' || $key == 'count-positive') {
-                    $count = 'count';
-
-                    if($algebraic === true) {
-                        $count = 'difference';
-                        if($value > 0) $value = '+' . $value;
-                    }
-
+                // Count as attribute
+                elseif( ($key == 'count' || $key == 'count-positive') && $count_as_attribute === true ) {
                     if(empty($value)) $value = 0;
-
-                    $parent->setAttribute($count, $value);
+                    $parent->setAttribute('count', $value);
                 }
 
-                // Final value
+                // Other values
                 else {
                     $item->setValue($value);
                     $parent->appendChild($item);

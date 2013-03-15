@@ -131,7 +131,7 @@
             }
 
             // Build XML
-            Storage::buildXML($result, $storage->get(), false);
+            Storage::buildXML($result, $storage->get(), true);
 
             // Add output parameters
             if(intval($this->dsParamPARAMS) == 1) {
