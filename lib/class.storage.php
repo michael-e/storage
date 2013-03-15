@@ -138,7 +138,7 @@
                         $items[$key] = intval($storage[$key]) + intval($value);
                     }
                     elseif($key == 'count-positive' && $isInt === true) {
-                        $items[$key] = $this->zeroNegativeCounts(intval($storage[$key]) + intval($value));
+                        $items[$key] = $this->noNegativeCounts(intval($storage[$key]) + intval($value));
                     }
                     elseif(($key == 'count' || $key == 'count-positive') && $isInt === false) {
                         $this->errors[] = "Invalid count: $items[$key] is not an integer, ignoring value.";
@@ -149,12 +149,12 @@
         }
 
         /**
-         * Zero negative counts.
+         * No negative counts.
          *
          * @param int $count
          *  The count
          */
-        private function zeroNegativeCounts($count) {
+        private function noNegativeCounts($count) {
             if($count < 0) {
                 return 0;
             }
