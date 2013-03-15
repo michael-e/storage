@@ -105,7 +105,7 @@
             if(is_array($array2)){
                 foreach($array2 as $key => $value){
                     if(is_array($value)){
-                        $array1[$key] = $this->dropFromArray($value, $array1[$key]);
+                        $array1[$key] = $this->dropFromArray($array1[$key], $value);
                     }
                     else{
                         unset($array1[$key]);
