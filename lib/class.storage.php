@@ -126,8 +126,8 @@
          * @return array
          *  Returns items with recalculated counts
          */
-        function recalculateCount($items, $storage) {
-            if(is_array($storage)) {
+        function recalculateCount($items, $storage = array()) {
+            if(is_array($items)) {
                 foreach($items as $key => $value) {
                     $isInt = ctype_digit((string)$value);
 
@@ -142,6 +142,7 @@
                     }
                     elseif(($key == 'count' || $key == 'count-positive') && $isInt === false) {
                         $this->errors[] = "Invalid count: $items[$key] is not an integer, ignoring value.";
+                        $items[$key] = intval($storage[$key]);
                     }
                 }
             }
