@@ -152,7 +152,7 @@
         function recalculateCount($storage = array(), $items) {
             if(is_array($items)) {
                 foreach($items as $key => $value) {
-                    $isInt = ctype_digit((string)$value);
+                    $isInt = ctype_digit((string)abs($value));
 
                     if(is_array($value)) {
                         $items[$key] = $this->recalculateCount($storage[$key], $value);
