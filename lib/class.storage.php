@@ -157,19 +157,19 @@
                 }
 
                 foreach($items as $key => $value) {
-                    $isInt = ctype_digit((string)abs($value));
+                    $is_int = ctype_digit((string)abs($value));
 
                     if(is_array($value)) {
                         $items[$key] = $this->recalculateCount($storage[$key], $value);
                     }
                     else {
-                        if($key == 'count' && $isInt === true) {
+                        if($key == 'count' && $is_int === true) {
                             $items['count'] = intval($storage['count']) + intval($value);
                         }
-                        elseif($key == 'count-positive' && $isInt === true) {
+                        elseif($key == 'count-positive' && $is_int === true) {
                             $items['count'] = $this->noNegativeCounts(intval($storage['count']) + intval($value));
                         }
-                        elseif(($key == 'count' || $key == 'count-positive') && $isInt === false) {
+                        elseif(($key == 'count' || $key == 'count-positive') && $is_int === false) {
                             $this->_errors[] = "Invalid count: $items[$key] is not an integer, ignoring value.";
                             $items['count'] = intval($storage['count']);
                         }
