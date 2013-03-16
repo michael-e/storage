@@ -134,7 +134,7 @@
             Storage::buildXML($result, $storage->get(), true);
 
             // Add output parameters
-            if(intval($this->dsParamPARAMS) == 1) {
+            if(intval($this->dsParamPARAMS) == 1 && is_array($groups)) {
                 foreach($groups as $name => $values) {
                     $param_pool['ds-' . $this->dsParamROOTELEMENT . '.' . $name] = array_keys((array)$values);
                 }
