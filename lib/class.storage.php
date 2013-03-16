@@ -162,15 +162,17 @@
                     if(is_array($value)) {
                         $items[$key] = $this->recalculateCount($storage[$key], $value);
                     }
-                    elseif($key == 'count' && $isInt === true) {
-                        $items[$key] = intval($storage[$key]) + intval($value);
-                    }
-                    elseif($key == 'count-positive' && $isInt === true) {
-                        $items[$key] = $this->noNegativeCounts(intval($storage[$key]) + intval($value));
-                    }
-                    elseif(($key == 'count' || $key == 'count-positive') && $isInt === false) {
-                        $this->_errors[] = "Invalid count: $items[$key] is not an integer, ignoring value.";
-                        $items[$key] = intval($storage[$key]);
+                    else {
+                        if($key == 'count' && $isInt === true) {
+                            $items[$key] = intval($storage[$key]) + intval($value);
+                        }
+                        elseif($key == 'count-positive' && $isInt === true) {
+                            $items[$key] = $this->noNegativeCounts(intval($storage[$key]) + intval($value));
+                        }
+                        elseif(($key == 'count' || $key == 'count-positive') && $isInt === false) {
+                            $this->_errors[] = "Invalid count: $items[$key] is not an integer, ignoring value.";
+                            $items[$key] = intval($storage[$key]);
+                        }
                     }
                 }
             }
