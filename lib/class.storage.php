@@ -56,7 +56,7 @@
          *  New data
          */
         public function set($items = array()) {
-            $storage = array_replace_recursive($this->_storage, (array)$items);
+            $storage = array_replace_recursive((array)$this->_storage, (array)$items);
 
             // Set storage
             if($storage !== null) {
