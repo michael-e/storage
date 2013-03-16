@@ -240,7 +240,7 @@
                 }
 
                 // Count as attribute
-                elseif( ($key == 'count' && $count_as_attribute === true ) {
+                elseif($key == 'count' && $count_as_attribute === true) {
                     if(empty($value)) $value = 0;
                     $parent->setAttribute('count', $value);
                 }
