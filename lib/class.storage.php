@@ -151,6 +151,11 @@
          */
         function recalculateCount($storage = array(), $items) {
             if(is_array($items)) {
+                // Convention: 'count-positive' has precedence over 'count'
+                if($items['count-positive']) {
+                    unset($items['count']);
+                }
+
                 foreach($items as $key => $value) {
                     $isInt = ctype_digit((string)abs($value));
 
