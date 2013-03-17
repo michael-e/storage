@@ -55,7 +55,7 @@
          * @param array $items
          *  New data
          * @param boolean $recalculate
-         *  If set to true, item counts will recalculated
+         *  If set to true, item counts will be recalculated
          */
         public function set($items = array(), $recalculate = false) {
             $items = $this->preprocessItems($this->_storage, $items, $recalculate);
@@ -150,7 +150,7 @@
          * @param array $storage
          *  The storage context
          * @param boolean $recalculate
-         *  If set to true, item counts will recalculated
+         *  If set to true, item counts will be recalculated
          * @return array
          *  The processed items array
          */
