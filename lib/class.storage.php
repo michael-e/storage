@@ -89,7 +89,7 @@
          * @param array $items
          *  The items that should be dropped
          **/
-        public function drop($items = array()){
+        public function drop($items = array()) {
             $this->_storage = $this->dropFromArray($this->_storage, $items);
         }
 
@@ -104,10 +104,10 @@
          * @return array
          *  The updated array
          **/
-        function dropFromArray($array1 = array(), $array2 = array()){
-            if(is_array($array2)){
-                foreach($array2 as $key => $value){
-                    if(is_array($value)){
+        function dropFromArray($array1 = array(), $array2 = array()) {
+            if(is_array($array2)) {
+                foreach($array2 as $key => $value) {
+                    if(is_array($value)) {
                         $array1[$key] = $this->dropFromArray($array1[$key], $value);
                     }
                     else{
@@ -237,10 +237,10 @@
          * @param boolean $count_as_attribute
          *  If set to true, counts will be added as attributes
          */
-        public static function itemsToXML($parent, $items, $count_as_attribute = false){
+        public static function itemsToXML($parent, $items, $count_as_attribute = false) {
             if(!is_array($items)) return;
 
-            foreach($items as $key => $value){
+            foreach($items as $key => $value) {
                 $item = new XMLElement('item');
                 $item->setAttribute('id', General::sanitize($key));
 
