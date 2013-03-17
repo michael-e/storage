@@ -73,7 +73,7 @@
          * Set storage data and recalculate counts.
          *
          * @param array $items
-         *  Updated data
+         *  Data
          */
         public function setCount($items = array()) {
             $items = $this->recalculateCount($this->_storage, $items);
