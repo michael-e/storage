@@ -234,7 +234,7 @@
 
             foreach($items as $key => $value){
                 $item = new XMLElement('item');
-                $item->setAttribute('id', $key);
+                $item->setAttribute('id', General::sanitize($key));
 
                 // Nested items
                 if(is_array($value)) {
@@ -245,12 +245,12 @@
                 // Count as attribute
                 elseif($key == 'count' && $count_as_attribute === true) {
                     if(empty($value)) $value = 0;
-                    $parent->setAttribute('count', $value);
+                    $parent->setAttribute('count', General::sanitize($value));
                 }
 
                 // Other values
                 else {
-                    $item->setValue($value);
+                    $item->setValue(General::sanitize($value));
                     $parent->appendChild($item);
                 }
             }

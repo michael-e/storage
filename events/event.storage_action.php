@@ -71,7 +71,6 @@
             $action = end($action_keys);
 
             $items = (array)$_REQUEST['storage'];
-            array_walk_recursive($items, 'General::sanitize');
 
             $s = new Storage();
 
