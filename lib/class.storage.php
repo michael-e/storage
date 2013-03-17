@@ -54,8 +54,12 @@
          *
          * @param array $items
          *  New data
+         * @param boolean $recalculate
+         *  If set to true, item counts will recalculated
          */
-        public function set($items = array()) {
+        public function set($items = array(), $recalculate = false) {
+            $items = $this->preprocessItems($this->_storage, $items, $recalculate);
+
             $storage = array_replace_recursive((array)$this->_storage, (array)$items);
 
             // Set storage
@@ -76,8 +80,7 @@
          *  Data
          */
         public function setCount($items = array()) {
-            $items = $this->recalculateCount($this->_storage, $items);
-            $this->set($items);
+            $this->set($items, true);
         }
 
         /**
@@ -146,32 +149,37 @@
          *  The items array
          * @param array $storage
          *  The storage context
+         * @param boolean $recalculate
+         *  If set to true, item counts will recalculated
          * @return array
-         *  Returns items with recalculated counts
+         *  The processed items array
          */
-        function recalculateCount($storage = array(), $items) {
+        function preprocessItems($storage = array(), $items, $recalculate = false) {
             if(is_array($items)) {
                 // Convention: 'count-positive' has precedence over 'count'
                 if($items['count-positive']) {
                     unset($items['count']);
                 }
-
                 foreach($items as $key => $value) {
-                    $is_int = ctype_digit((string)abs($value));
-
                     if(is_array($value)) {
-                        $items[$key] = $this->recalculateCount($storage[$key], $value);
+                        $items[$key] = $this->preprocessItems($storage[$key], $value, $recalculate);
                     }
                     else {
+                        $item_value = intval($value);
+                        $stored_value = intval($storage['count']);
+                        $add_value = $recalculate ? $stored_value : 0;
+
+                        $is_int = ctype_digit((string)abs($value));
+
                         if($key == 'count' && $is_int === true) {
-                            $items['count'] = intval($storage['count']) + intval($value);
+                            $items['count'] = $item_value + $add_value;
                         }
                         elseif($key == 'count-positive' && $is_int === true) {
-                            $items['count'] = $this->noNegativeCounts(intval($storage['count']) + intval($value));
+                            $items['count'] = $this->noNegativeCounts($item_value + $add_value);
                         }
                         elseif(($key == 'count' || $key == 'count-positive') && $is_int === false) {
                             $this->_errors[] = "Invalid count: $items[$key] is not an integer, ignoring value.";
-                            $items['count'] = intval($storage['count']);
+                            $items['count'] = $stored_value;
                         }
                         unset($items['count-positive']);
                     }
