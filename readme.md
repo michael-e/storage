@@ -74,9 +74,9 @@ Optionally, it's possible to output the selected groups as parameters. Those out
 ```xml
 <storage>
     <group id="basket">
-        <item id="article1" count="4" />
-        <item id="article2" count="8" />
-        <item id="article3" count="11" />
+        <item id="article1" count-positive="4" />
+        <item id="article2" count-positive="8" />
+        <item id="article3" count-positive="11" />
     </group>
 </storage>
 
@@ -84,7 +84,7 @@ Optionally, it's possible to output the selected groups as parameters. Those out
     <item handle="article1">article1</item>
     <item handle="article2">article2</item>
     <item handle="article3">article3</item>
-</ds-storage.basket>    
+</ds-storage.basket>
 ```
 
 ### Example Parameter Output
