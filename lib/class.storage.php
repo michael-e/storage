@@ -157,7 +157,7 @@
                     if(is_array($value)) {
                         if($key == 'count' || $key == 'count-positive') {
                             unset($items[$key]);
-                            $this->_errors[] = "Invalid count: $items[$key] is not an integer, ignoring value.";
+                            $this->_errors[] = "Invalid count: Value of '$key' is not an integer, ignoring it.";
                         }
                         else {
                             $items[$key] = $this->preprocessItems($storage[$key], $value, $recalculate);
@@ -177,7 +177,7 @@
                             $items[$key] = $this->noNegativeCounts($item_value + $add_value);
                         }
                         elseif(($key == 'count' || $key == 'count-positive') && $is_int === false) {
-                            $this->_errors[] = "Invalid count: $items[$key] is not an integer, ignoring value.";
+                            $this->_errors[] = "Invalid count: Value of '$key' is not an integer, ignoring it.";
                             $items[$key] = $stored_value;
                         }
                     }
