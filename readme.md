@@ -69,7 +69,7 @@ Storage also bundles a custom Data Source interface offering filtering by groups
 
 Optionally, it's possible to output the selected groups as parameters. Those output parameters will follow the Symphony naming convention of `$ds-` + `Data Source name` + `.` + `group name`, e. g. `$ds-storage.basket` and will contain the ids of the group's direct child items.
 
-### Example XML Output
+### XML Output
 
 ```xml
 <storage>
@@ -87,8 +87,46 @@ Optionally, it's possible to output the selected groups as parameters. Those out
 </ds-storage.basket>    
 ```
 
-### Example Parameter Output
+### Parameter Output
 
 ```xml
 $ds-storage.basket: 'article1, article2, article3'
 ```
+
+## Example: Shopping Cart with Product Variants
+
+Say you'd like to create a shopping basket for a store that offers products in different colour variants. Each product should be shown on a separate page where the user can choose a colour and add the desired amount to the basket. A list of all available variants doesn't seem appropriate to you because there might be quite a lot of different colours. So you decide to have a select box with the colours and an input field for the amount:
+
+```html
+<form action="" method="post">
+	<fieldset>
+		<label>Colours
+			<select>
+				<option>red</option>
+				<option>blue</option>
+				<option>green</option>
+			</select>
+		</label>
+		<label>Amount
+			<input id="amount" type="text" name="?" value="1" />
+		</label>
+	</fieldset>
+	<button type="submit" name="storage-action[set-count]">Add to basket</button>
+</form>
+```
+
+Now you run into a problem: in order to connect colours and amounts, you need to have specific input names for each colour that store the chosen amount – `storage[basket][red][count]`, `storage[basket][blue][count]`, `storage[basket][green][count]`. This cannot be achieved with the given select box. In order to get your desired behaviour you need to create a different HTML structure first and apply your layout using JavaScript later on:
+
+```html
+<form action="" method="post">
+	<fieldset>
+		<legend>Colours</legend>
+		<label><input type="text" name="storage[basket][red][count]" value="1" />red</label>
+		<label><input type="text" name="storage[basket][blue][count]" value="1" />blue</label>
+		<label><input type="text" name="storage[basket][green][count]" value="1" />green</label>
+	</fieldset>
+	<button type="submit" name="storage-action[set-count]">Add to basket</button>
+</form>
+```
+
+Based on this markup you can now create your layout by iterating over the given colours and set the name of the amount field dynamically as soon as the user switches colours in the select box.
