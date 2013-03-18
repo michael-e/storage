@@ -90,7 +90,7 @@
          *  The items that should be dropped
          **/
         public function drop($items = array()) {
-            $this->_storage = $this->dropFromArray($this->_storage, $items);
+            $this->dropFromArray($this->_storage, $items);
         }
 
         /**
@@ -98,24 +98,21 @@
          * of a second array.
          *
          * @param array $array1
-         *  The existing (e.g. session) array
+         *  The existing (e.g. session) array, passed by reference
          * @param array $array2
          *  The second (e.g. request data) array
-         * @return array
-         *  The updated array
          **/
-        function dropFromArray($array1 = array(), $array2 = array()) {
+        function dropFromArray(&$array1 = array(), $array2 = array()) {
             if(is_array($array2)) {
                 foreach($array2 as $key => $value) {
                     if(is_array($value)) {
-                        $array1[$key] = $this->dropFromArray($array1[$key], $value);
+                        $this->dropFromArray($array1[$key], $value);
                     }
                     else{
                         unset($array1[$key]);
                     }
                 }
             }
-            return $array1;
         }
 
         /**
