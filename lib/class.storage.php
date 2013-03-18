@@ -90,7 +90,7 @@
          *  The items that should be dropped
          **/
         public function drop($items = array()) {
-            $this->_storage = $this->dropFromArray($this->_storage, $items);
+            $this->dropFromArray($this->_storage, $items);
         }
 
         /**
@@ -98,24 +98,21 @@
          * of a second array.
          *
          * @param array $array1
-         *  The existing (e.g. session) array
+         *  The existing (e.g. session) array, passed by reference
          * @param array $array2
          *  The second (e.g. request data) array
-         * @return array
-         *  The updated array
          **/
-        function dropFromArray($array1 = array(), $array2 = array()) {
+        function dropFromArray(&$array1 = array(), $array2 = array()) {
             if(is_array($array2)) {
                 foreach($array2 as $key => $value) {
-                    if(is_array($value)) {
-                        $array1[$key] = $this->dropFromArray($array1[$key], $value);
+                    if(is_array($value) && array_key_exists($key, $array1)) {
+                        $this->dropFromArray($array1[$key], $value);
                     }
                     else{
                         unset($array1[$key]);
                     }
                 }
             }
-            return $array1;
         }
 
         /**
@@ -156,32 +153,33 @@
          */
         function preprocessItems($storage = array(), $items, $recalculate = false) {
             if(is_array($items)) {
-                // Convention: 'count-positive' has precedence over 'count'
-                if($items['count-positive']) {
-                    unset($items['count']);
-                }
                 foreach($items as $key => $value) {
                     if(is_array($value)) {
-                        $items[$key] = $this->preprocessItems($storage[$key], $value, $recalculate);
+                        if($key == 'count' || $key == 'count-positive') {
+                            unset($items[$key]);
+                            $this->_errors[] = "Invalid count: Value of '$key' is not an integer, ignoring it.";
+                        }
+                        else {
+                            $items[$key] = $this->preprocessItems($storage[$key], $value, $recalculate);
+                        }
                     }
                     else {
                         $item_value = intval($value);
-                        $stored_value = intval($storage['count']);
+                        $stored_value = intval($storage[$key]);
                         $add_value = $recalculate ? $stored_value : 0;
 
-                        $is_int = ctype_digit((string)abs($value));
+                        $is_int = $this->isInteger($value);
 
                         if($key == 'count' && $is_int === true) {
-                            $items['count'] = $item_value + $add_value;
+                            $items[$key] = $item_value + $add_value;
                         }
                         elseif($key == 'count-positive' && $is_int === true) {
-                            $items['count'] = $this->noNegativeCounts($item_value + $add_value);
+                            $items[$key] = $this->noNegativeCounts($item_value + $add_value);
                         }
                         elseif(($key == 'count' || $key == 'count-positive') && $is_int === false) {
-                            $this->_errors[] = "Invalid count: $items[$key] is not an integer, ignoring value.";
-                            $items['count'] = $stored_value;
+                            $this->_errors[] = "Invalid count: Value of '$key' is not an integer, ignoring it.";
+                            $items[$key] = $stored_value;
                         }
-                        unset($items['count-positive']);
                     }
                 }
             }
@@ -251,9 +249,9 @@
                 }
 
                 // Count as attribute
-                elseif($key == 'count' && $count_as_attribute === true) {
+                elseif(($key == 'count' || $key == 'count-positive') && $count_as_attribute === true) {
                     if(empty($value)) $value = 0;
-                    $parent->setAttribute('count', General::sanitize($value));
+                    $parent->setAttribute($key, General::sanitize($value));
                 }
 
                 // Other values
@@ -264,4 +262,17 @@
             }
         }
 
+        /**
+         * Test if number is integer, including string integers
+         * @param mixed var
+         * @return boolean
+         */
+        function isInteger($var) {
+            if(preg_match('/^-?\d+$/', $var)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
     }
