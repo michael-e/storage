@@ -169,7 +169,7 @@
                         $stored_value = intval($storage['count']);
                         $add_value = $recalculate ? $stored_value : 0;
 
-                        $is_int = ctype_digit((string)abs($value));
+                        $is_int = $this->isInteger($value);
 
                         if($key == 'count' && $is_int === true) {
                             $items['count'] = $item_value + $add_value;
@@ -264,4 +264,17 @@
             }
         }
 
+        /**
+         * Test if number is integer, including string integers
+         * @param mixed var
+         * @return boolean
+         */
+        function isInteger($var) {
+            if(preg_match('/^-?\d+$/', $var)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
     }
