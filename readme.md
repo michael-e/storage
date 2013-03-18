@@ -129,4 +129,6 @@ Now you run into a problem: in order to connect colours and amounts, you need to
 </form>
 ```
 
-Based on this markup you can now create your layout by iterating over the given colours and set the name of the amount field dynamically as soon as the user switches colours in the select box.
+Based on this markup you can now create your layout by iterating over the given colours and set the name of the amount field dynamically as soon as the user switches colours in the select box. 
+
+(You'll do it that way to get your shop working with and without JavaScript, don't you? And you won't forget to add styles for _both_ layouts either, right? Perfect!)
