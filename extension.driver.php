@@ -2,7 +2,7 @@
 
     require_once EXTENSIONS . '/storage/data-sources/datasource.storage.php';
 
-    Class Extension_Storage extends Extension {
+    Class extension_Storage extends Extension {
 
         private static $provides = array();
 
