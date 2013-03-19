@@ -87,6 +87,9 @@
                 case 'drop-all':
                     $s->dropAll();
                     break;
+                default:
+                    $errors[] = "'$action' is not a valid storage action.";
+                    break;
             }
 
             $result = new XMLElement($this->ROOTELEMENT);
