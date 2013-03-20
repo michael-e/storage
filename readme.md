@@ -9,7 +9,9 @@ Storage allows the creation of nested data arrays of any kind with three restric
 - Each item can contain a reserved key `count-positive` which behaves exactly the same as `count` except that fact, that it doesn't allow negative values. This is usefull for creating shopping carts where clients are not supposed to order negative amount of items.
 
 All count values must be integers, float values will be considered invalid and will be ignored.
-If an item uses `count` and `count-positive` keys, `count` will take precedence and `count-positive` will be ignored.
+
+Both `count` and `count-positive` keys will not result in items but attributes in the datasource output (see examples). These keys can be used independently, which means even at the same time.
+
 
 ## Events
 
@@ -20,7 +22,7 @@ Storage is a standalone class (`/lib/class.storage.php`) that can be used to cre
 - **drop:** to drop entire groups or single items from the storage
 - **drop-all:** to drop the storage completely
 
-These actions can be triggered by either sending a `POST` or `GET` request. This example form will update a shopping basket by raising the amount of `article1` by 3.
+These actions can be triggered by either sending a `POST` or `GET` request. This example form will update a shopping basket by raising the amount of `article1` by 3 (using the `count-positive` key).
 
 ```html
 <form action="" method="post">
@@ -51,7 +53,7 @@ These actions can be triggered by either sending a `POST` or `GET` request. This
 <events>
     <storage-action type="set-count" result="error">
     	<message>Storage could not be updated.</message>
-    	<message>Invalid count: 3.5 is not an integer, ignoring value.</message>
+        <message>Invalid count: Value of 'count-positive' is not an integer, ignoring it.</message>
         <request-values>
             <group id="basket">
                 <item id="article1">
