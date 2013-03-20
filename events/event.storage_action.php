@@ -72,19 +72,23 @@
             $items = (array)$_REQUEST['storage'];
 
             $s = new Storage();
-            $errors = $s->getErrors();
+            $errors = array();
             switch($action) {
                 case 'set':
                     $s->set($items);
+                    $errors = $s->getErrors();
                     break;
                 case 'set-count':
                     $s->setCount($items);
+                    $errors = $s->getErrors();
                     break;
                 case 'drop':
                     $s->drop($items);
+                    $errors = $s->getErrors();
                     break;
                 case 'drop-all':
                     $s->dropAll();
+                    $errors = $s->getErrors();
                     break;
                 default:
                     $errors[] = "'$action' is not a valid storage action.";
