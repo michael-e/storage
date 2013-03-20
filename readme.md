@@ -93,6 +93,11 @@ Optionally, it's possible to output the selected groups as parameters. Those out
 $ds-storage.basket: 'article1, article2, article3'
 ```
 
+### 2.2.x Branch
+
+Due to missing core features in Symphony 2.2.x, the 2.2.x branch of this extension can not provide the above datasource possibilities. Instead it provides a simpler, hardcoded datasource which will output the complete storage to XML. The XML node is `storage`. The parameter output will use dashes instead of dots to build the group names.
+
+
 ## Example: Shopping Cart with Product Variants
 
 Say you'd like to create a shopping basket for a store that offers products in different colour variants. Each product should be shown on a separate page where the user can choose a colour and add the desired amount to the basket. A list of all available variants doesn't seem appropriate to you because there might be quite a lot of different colours. So you decide to have a select box with the colours and an input field for the amount:
