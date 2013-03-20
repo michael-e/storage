@@ -62,7 +62,7 @@
         }
 
         public function load() {
-            if(isset($_REQUEST['storage-action'])) return $this->execute;
+            if(isset($_REQUEST['storage-action'])) return $this->execute();
         }
 
         protected function execute() {
