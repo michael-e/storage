@@ -1,8 +1,9 @@
 <?php
 
+    require_once TOOLKIT . '/class.datasource.php';
     require_once EXTENSIONS . '/storage/lib/class.storage.php';
 
-    Class datasourceStorage extends Datasource {
+    Class datasourceStorage extends DataSource {
 
         public $dsParamROOTELEMENT = 'storage';
 
