@@ -22,16 +22,18 @@
         }
 
         public static function documentation() {
-            return '<p>Storage offers three actions:</p>
+            return '<p>Storage offers four actions:</p>
 <ul>
     <li><strong>set:</strong> to set new groups and items, replacing existing values</li>
     <li><strong>set-count:</strong> to set new groups and items, replacing existing values and recalculating counts</li>
     <li><strong>drop:</strong> to drop entire groups or single items from the storage</li>
+    <li><strong>drop-all:</strong> to drop the storage completely</li>
+
 </ul>
 <p>These actions can be triggered by either sending a <code>POST</code> or <code>GET</code> request. This example form will update a shopping basket by raising the amount of <code>article1</code> by 3.</p>
 <pre><code>&lt;form action=&quot;&quot; method=&quot;post&quot;&gt;
     &lt;input name=&quot;storage[basket][article1][count-positive]&quot; value=&quot;3&quot; /&gt;
-    &lt;input name=&quot;storage-action[update]&quot; type=&quot;submit&quot; /&gt;
+    &lt;input name=&quot;storage-action[set-count]&quot; type=&quot;submit&quot; /&gt;
 &lt;/form&gt;</code></pre>
 <h3>Example Output</h3>
 <pre><code>&lt;events&gt;
@@ -49,7 +51,7 @@
 <pre><code>&lt;events&gt;
     &lt;storage-action type=&quot;set-count&quot; result=&quot;error&quot;&gt;
         &lt;message&gt;Storage could not be updated.&lt;/message&gt;
-        &lt;message&gt;Invalid count: 3.5 is not an integer, ignoring value.&lt;/message&gt;
+        &lt;message&gt;Invalid count: Value of \'count-positive\' is not an integer, ignoring it.&lt;/message&gt;
         &lt;request-values&gt;
             &lt;group id=&quot;basket&quot;&gt;
                 &lt;item id=&quot;article1&quot;&gt;
