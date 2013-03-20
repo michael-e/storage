@@ -35,15 +35,15 @@ These actions can be triggered by either sending a `POST` or `GET` request. This
 
 ```xml
 <events>
-    <storage-action type="set-count" result="success">
-        <request-values>
-            <group id="basket">
-                <item id="article1">
-                    <item id="count-postive">3</item>
-                </item>
-            </group>
-        </request-values>
-    </storage-action>
+	<storage-action type="set-count" result="success">
+		<request-values>
+			<group id="basket">
+				<item id="article1">
+					<item id="count-postive">3</item>
+				</item>
+			</group>
+		</request-values>
+	</storage-action>
 </events>
 ```
 
@@ -51,17 +51,17 @@ These actions can be triggered by either sending a `POST` or `GET` request. This
 
 ```xml
 <events>
-    <storage-action type="set-count" result="error">
-    	<message>Storage could not be updated.</message>
-        <message>Invalid count: Value of 'count-positive' is not an integer, ignoring it.</message>
-        <request-values>
-            <group id="basket">
-                <item id="article1">
-                    <item id="count-postive">3.5</item>
-                </item>
-            </group>
-        </request-values>
-    </storage-action>
+	<storage-action type="set-count" result="error">
+		<message>Storage could not be updated.</message>
+		<message>Invalid count: Value of 'count-positive' is not an integer, ignoring it.</message>
+		<request-values>
+			<group id="basket">
+				<item id="article1">
+					<item id="count-postive">3.5</item>
+				</item>
+			</group>
+		</request-values>
+	</storage-action>
 </events>
 ```
 
@@ -75,17 +75,17 @@ Optionally, it's possible to output the selected groups as parameters. Those out
 
 ```xml
 <storage>
-    <group id="basket">
-        <item id="article1" count-positive="4" />
-        <item id="article2" count-positive="8" />
-        <item id="article3" count-positive="11" />
-    </group>
+	<group id="basket">
+		<item id="article1" count-positive="4" />
+		<item id="article2" count-positive="8" />
+		<item id="article3" count-positive="11" />
+	</group>
 </storage>
 
 <ds-storage.basket>
-    <item handle="article1">article1</item>
-    <item handle="article2">article2</item>
-    <item handle="article3">article3</item>
+	<item handle="article1">article1</item>
+	<item handle="article2">article2</item>
+	<item handle="article3">article3</item>
 </ds-storage.basket>
 ```
 
