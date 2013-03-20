@@ -62,10 +62,10 @@
         }
 
         public function load() {
-            if(isset($_REQUEST['storage-action'])) return $this->__trigger();
+            if(isset($_REQUEST['storage-action'])) return $this->execute;
         }
 
-        protected function __trigger() {
+        protected function execute() {
             $action_keys = array_keys($_REQUEST['storage-action']);
             $action = end($action_keys);
 
