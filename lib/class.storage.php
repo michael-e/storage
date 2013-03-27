@@ -263,12 +263,12 @@
         }
 
         /**
-         * Test if number is integer, including string integers
+         * Test if a number is an integer, including string integers
          * @param mixed var
          * @return boolean
          */
-        function isInteger($var) {
-            if(preg_match('/^-?\d+$/', $var)) {
+        public function isInteger($var) {
+            if(preg_match('/^-?\d+$/', (string)$var)) {
                 return true;
             }
             else {
