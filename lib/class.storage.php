@@ -57,8 +57,8 @@
          * @param boolean $recalculate
          *  If set to true, item counts will be recalculated
          */
-        public function set($items = array(), $recalculate = false) {
-            $this->setStorage($this->_storage, $items, $recalculate);
+        public function set($items = array()) {
+            $this->setStorage($this->_storage, $items, false);
         }
 
         /**
@@ -68,7 +68,7 @@
          *  Data
          */
         public function setCount($items = array()) {
-            $this->set($items, true);
+            $this->setStorage($this->_storage, $items, true);
         }
 
         /**
