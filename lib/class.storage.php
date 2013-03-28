@@ -82,28 +82,6 @@
         }
 
         /**
-         * Drop key/value pairs from an existing array based on the keys
-         * of a second array.
-         *
-         * @param array $array1
-         *  The existing (e.g. session) array, passed by reference
-         * @param array $array2
-         *  The second (e.g. request data) array
-         **/
-        function dropFromArray(&$array1 = array(), $array2 = array()) {
-            if(is_array($array2)) {
-                foreach($array2 as $key => $value) {
-                    if(is_array($value) && array_key_exists($key, $array1)) {
-                        $this->dropFromArray($array1[$key], $value);
-                    }
-                    else{
-                        unset($array1[$key]);
-                    }
-                }
-            }
-        }
-
-        /**
          * Drop all items from the storage.
          */
         public function dropAll() {
@@ -173,6 +151,28 @@
                     }
                     else {
                         $storage[$key] = $request_value;
+                    }
+                }
+            }
+        }
+
+        /**
+         * Drop key/value pairs from an existing array based on the keys
+         * of a second array.
+         *
+         * @param array $array1
+         *  The existing (e.g. session) array, passed by reference
+         * @param array $array2
+         *  The second (e.g. request data) array
+         **/
+        function dropFromArray(&$array1 = array(), $array2 = array()) {
+            if(is_array($array2)) {
+                foreach($array2 as $key => $value) {
+                    if(is_array($value) && array_key_exists($key, $array1)) {
+                        $this->dropFromArray($array1[$key], $value);
+                    }
+                    else{
+                        unset($array1[$key]);
                     }
                 }
             }
