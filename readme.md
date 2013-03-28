@@ -6,7 +6,7 @@ Storage allows the creation of nested data arrays of any kind with three restric
 
 - The first key level in the storage array is considered the group name, this allows the creation of different storage contexts. For example a shopping cart and a list of user settings.
 - Each item can contain a reserved key `count` which is used to store the amount of an item. Storage will automatically recalculate this count on update which is usefull for creating inventories.
-- Each item can contain a reserved key `count-positive` which behaves exactly the same as `count` except that fact, that it doesn't allow negative values. This is usefull for creating shopping carts where clients are not supposed to order negative amount of items.
+- Each item can contain a reserved key `count-positive` which behaves exactly the same as `count` except the fact that the corresponding item will be dropped from the storage array if the resulting numeric value is not positive (i.e. negative or zero). This is usefull for creating shopping carts where clients are not supposed to order negative or zero amounts of items.
 
 All count values must be integers, float values will be considered invalid and will be ignored.
 
