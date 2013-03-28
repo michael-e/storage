@@ -58,19 +58,7 @@
          *  If set to true, item counts will be recalculated
          */
         public function set($items = array(), $recalculate = false) {
-            $items = $this->preprocessItems($this->_storage, $items, $recalculate);
-
-            $storage = array_replace_recursive((array)$this->_storage, (array)$items);
-
-            // Set storage
-            if($storage !== null) {
-                $this->_storage = $storage;
-            }
-
-            // Log error
-            else {
-                $this->_errors[] = 'Storage could not be updated.';
-            }
+            $this->setStorage($this->_storage, $items, $recalculate);
         }
 
         /**
@@ -140,64 +128,53 @@
         }
 
         /**
-         * Recalculate storage counts
+         * Update the existing storage array with values from the request
+         * array if keys match. Also perform processing for 'count' and
+         * 'count-positive' keys and unset items if the result of
+         * 'count-positive' is not positive.
          *
-         * @param array $items
-         *  The items array
          * @param array $storage
-         *  The storage context
+         *  The storage array, passed by reference
+         * @param array $request
+         *  The request data array
          * @param boolean $recalculate
          *  If set to true, item counts will be recalculated
-         * @return array
-         *  The processed items array
-         */
-        function preprocessItems($storage = array(), $items, $recalculate = false) {
-            if(is_array($items)) {
-                foreach($items as $key => $value) {
-                    if(is_array($value)) {
+         **/
+        public function setStorage(&$storage = array(), $request = array(), $recalculate = false) {
+            if(is_array($request)) {
+                foreach($request as $key => $request_value) {
+
+                    if(is_array($request_value)) {
                         if($key == 'count' || $key == 'count-positive') {
-                            unset($items[$key]);
                             $this->_errors[] = "Invalid count: Value of '$key' is not an integer, ignoring it.";
                         }
+                        // Look ahead. Drop items based on the resulting 'count-positive' value.
+                        elseif(
+                            isset($request_value['count-positive'])
+                            && $this->isInteger($request_value['count-positive'])
+                            && intval($request_value['count-positive']) + ($recalculate ? intval($storage[$key]['count-positive']) : 0) <= 0
+                        ) {
+                            $this->_errors[] = "Resulting count-positive of '$key' is not positive. Dropping item.";
+                            unset($storage[$key]);
+                        }
                         else {
-                            $items[$key] = $this->preprocessItems($storage[$key], $value, $recalculate);
+                            $this->setStorage($storage[$key], $request_value, $recalculate);
+                        }
+                    }
+                    // 'count' type keys. There is no need anymore to care for negative result values
+                    // of 'count-positive' keys; the corresponding items have been dropped already.
+                    elseif($key == 'count' || $key == 'count-positive') {
+                        if($this->isInteger($request_value)) {
+                            $storage[$key] = intval($request_value) + ($recalculate ? intval($storage[$key]) : 0);
+                        }
+                        else {
+                            $this->_errors[] = "Invalid count: Value of '$key' is not an integer, ignoring it.";
                         }
                     }
                     else {
-                        $item_value = intval($value);
-                        $stored_value = intval($storage[$key]);
-                        $add_value = $recalculate ? $stored_value : 0;
-
-                        $is_int = $this->isInteger($value);
-
-                        if($key == 'count' && $is_int === true) {
-                            $items[$key] = $item_value + $add_value;
-                        }
-                        elseif($key == 'count-positive' && $is_int === true) {
-                            $items[$key] = $this->noNegativeCounts($item_value + $add_value);
-                        }
-                        elseif(($key == 'count' || $key == 'count-positive') && $is_int === false) {
-                            $this->_errors[] = "Invalid count: Value of '$key' is not an integer, ignoring it.";
-                            $items[$key] = $stored_value;
-                        }
+                        $storage[$key] = $request_value;
                     }
                 }
-            }
-            return $items;
-        }
-
-        /**
-         * No negative counts.
-         *
-         * @param int $count
-         *  The count
-         */
-        private function noNegativeCounts($count) {
-            if($count < 0) {
-                return 0;
-            }
-            else {
-                return $count;
             }
         }
 
