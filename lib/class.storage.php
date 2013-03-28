@@ -139,8 +139,9 @@
                             $this->setStorage($storage[$key], $request_value, $recalculate);
                         }
                     }
-                    // 'count' type keys. There is no need anymore to care for negative result values
-                    // of 'count-positive' keys; the corresponding items have been dropped already.
+                    // 'count' type keys. There is no need at this point to care for negative
+                    // result values of 'count-positive' keys; the corresponding items have
+                    // been dropped already.
                     elseif($key == 'count' || $key == 'count-positive') {
                         if($this->isInteger($request_value)) {
                             $storage[$key] = intval($request_value) + ($recalculate ? intval($storage[$key]) : 0);
