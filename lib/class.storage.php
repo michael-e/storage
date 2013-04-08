@@ -136,6 +136,10 @@
                             unset($storage[$key]);
                         }
                         else {
+                            // The request value is an array, so drop the storage value if it's not.
+                            if(!is_array($storage[$key])) {
+                                $storage[$key] = NULL;
+                            }
                             $this->setStorage($storage[$key], $request_value, $recalculate);
                         }
                     }
