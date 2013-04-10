@@ -115,6 +115,7 @@
                 }
             }
             else {
+                if(isset($_REQUEST['redirect'])) redirect($_REQUEST['redirect']);
                 $result->setAttribute('result', 'success');
             }
 
