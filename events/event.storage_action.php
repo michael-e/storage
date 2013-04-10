@@ -72,6 +72,8 @@
             $action_keys = array_keys($_REQUEST['storage-action']);
             $action = end($action_keys);
 
+            $drop_request = $_REQUEST['storage-action']['drop'];
+
             $items = (array)$_REQUEST['storage'];
 
             $s = new Storage();
@@ -86,7 +88,12 @@
                     $errors = $s->getErrors();
                     break;
                 case 'drop':
-                    $s->drop($items);
+                    if(is_array($drop_request)) {
+                        $s->drop($drop_request);
+                    }
+                    else {
+                        $s->drop($items);
+                    }
                     $errors = $s->getErrors();
                     break;
                 case 'drop-all':
