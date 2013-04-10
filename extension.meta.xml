@@ -13,6 +13,16 @@
 		</author>
 	</authors>
 	<releases>
+		<release version="1.4" date="2013-04-10" min="2.3">
+			- Honor redirect param if the event is successful
+			- Enable passing groups or items with the drop action
+			- Bugfixes
+		</release>
+		<release version="1.3" date="2013-03-28" min="2.3">
+			- Items will be dropped from storage if the resulting 'count-positive' value is not positive
+			- Storage class rewrite
+			- Bugfixes
+		</release>
 		<release version="1.2" date="2013-03-20" min="2.3">
 			- First stable release
 		</release>
