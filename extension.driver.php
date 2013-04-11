@@ -73,12 +73,12 @@
 
             // Add to storage
             $context['options'][] = array(
-                'storage-add', in_array('storage-add', $context['selected']), __('Add to Storage')
+                'storage-add', in_array('storage-add', $context['selected']), __('Storage: Add Event Data')
             );
 
             // Drop from storage
             $context['options'][] = array(
-                'storage-drop', in_array('storage-drop', $context['selected']), __('Drop from Storage')
+                'storage-drop', in_array('storage-drop', $context['selected']), __('Storage: Drop All Event Data')
             );
         }
 
