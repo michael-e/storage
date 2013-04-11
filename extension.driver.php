@@ -2,10 +2,16 @@
 
     require_once EXTENSIONS . '/storage/data-sources/datasource.storage.php';
 
+    /**
+     * Storage Extension
+     */
     Class extension_Storage extends Extension {
 
         private static $provides = array();
 
+        /**
+         * Register Data Source providers
+         */
         public static function registerProviders() {
             self::$provides = array(
                 'data-sources' => array(
@@ -16,18 +22,30 @@
             return true;
         }
 
+        /** 
+         * Reveal providers
+         */
         public static function providerOf($type = null) {
             self::registerProviders();
+            $providers = array();
 
-            if(is_null($type)) return self::$provides;
-
-            if(!isset(self::$provides[$type])) return array();
-
-            return self::$provides[$type];
+            if(is_null($type)) {
+                $providers = self::$provides;
+            }
+            elseif(isset(self::$provides[$type])) {
+                $providers = self::$provides[$type];
+            }
+                    
+            return $providers;
         }
 
+        /**
+         * Storage delegates
+         */
         public function getSubscribedDelegates() {
             return array(
+            
+                // Append event filters
                 array(
                     'page' => '/blueprints/events/edit/',
                     'delegate' => 'AppendEventFilter',
@@ -38,24 +56,37 @@
                     'delegate' => 'AppendEventFilter',
                     'callback' => 'appendEventFilter'
                 ),
+                
+                // Execute event filters
                 array(
                     'page' => '/frontend/',
                     'delegate' => 'EventFinalSaveFilter',
-                    'callback' => 'eventFinalSaveFilter'
+                    'callback' => 'executeEventFilter'
                 )
             );
         }
         
+        /**
+         * Append filters to add to or drop from the storage to the event editor.
+         */
         public function appendEventFilter($context) {
+
+            // Add to storage
             $context['options'][] = array(
                 'storage-add', in_array('storage-add', $context['selected']), __('Add to Storage')
             );
+ 
+            // Drop from storage
             $context['options'][] = array(
                 'storage-drop', in_array('storage-drop', $context['selected']), __('Drop from Storage')
             );
         }
 
-        public function eventFinalSaveFilter($context) {
+        /**
+         * If an event has passed successfully, check attached filters and 
+         * either add the current event data to the storage or drop all event data.
+         */
+        public function executeEventFilter($context) {
             $storage = new Storage();
             $filters = (array)$context['event']->eParamFILTERS;
             $name = $context['event']->ROOTELEMENT;
@@ -63,7 +94,7 @@
            
             // Add to storage
             if(in_array('storage-add', $filters)) {
-                    $events['events'][$name] = $context['fields'];
+                $events['events'][$name] = $context['fields'];
                 $storage->set($events);
             }
             
