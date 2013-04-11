@@ -22,20 +22,36 @@ Storage is a standalone class (`/lib/class.storage.php`) that can be used to cre
 - **drop:** to drop entire groups or single items from the storage
 - **drop-all:** to drop the storage completely
 
-These actions can be triggered by either sending a `POST` or `GET` request. This example form will update a shopping basket by raising the amount of `article1` by 3 (using the `count-positive` key).
+These actions can be triggered by either sending a `POST` or `GET` request, where the latter is especially useful for drop actions. Please be really careful with using the `drop-all` action which will definitely empty your full storage and cannot be undone. 
+
+### Example Form
+
+This example form will update a shopping basket by raising the amount of `article1` by 3 (using the `count-positive` key).
 
 ```html
+// Set item count
 <form action="" method="post">
 	<input name="storage[basket][article1][count-positive]" value="3" />
 	<input name="storage-action[set-count]" type="submit" />
 </form>
 ```
 
-Like default Symphony events, Storage's default event supports adding a hidden input field to redirect the user to another location after the event has passed successfully:
+Dropping items can be done by either passing items that should be removed like in the example above or by appending these items to the action directly. Both forms will have the same result:
 
 ```html
-<input name="redirect" type="hidden" value="example.com" />
+// Drop item by passing is separately
+<form action="" method="post">
+	<input name="storage[basket][article1][count-positive]" value="3" />
+	<input name="storage-action[drop]" type="submit" />
+</form>
+
+// Drop item from within the action
+<form action="" method="post">
+	<input name="storage-action[drop][basket][article1]" type="submit" />
+</form>
 ```
+
+The second option is suited for complex forms that need to handle set and drop actions simultaneously: if items are appended to the drop action directly, other items will be ignored.
 
 ### Example Output
 
@@ -70,6 +86,16 @@ Like default Symphony events, Storage's default event supports adding a hidden i
 	</storage-action>
 </events>
 ```
+
+### Event Redirection
+
+Like default Symphony events, Storage's default event supports adding a hidden input field to redirect the user to another location after the event has passed successfully:
+
+```html
+<input name="redirect" type="hidden" value="example.com" />
+```
+
+This is a useful feature, if you are sending `GET` requests and would like to remove the parameters from the URL after the event executed.
 
 ## Data Sources
 
