@@ -22,7 +22,7 @@
             return true;
         }
 
-        /** 
+        /**
          * Reveal providers
          */
         public static function providerOf($type = null) {
@@ -35,7 +35,7 @@
             elseif(isset(self::$provides[$type])) {
                 $providers = self::$provides[$type];
             }
-                    
+
             return $providers;
         }
 
@@ -44,7 +44,7 @@
          */
         public function getSubscribedDelegates() {
             return array(
-            
+
                 // Append event filters
                 array(
                     'page' => '/blueprints/events/edit/',
@@ -56,7 +56,7 @@
                     'delegate' => 'AppendEventFilter',
                     'callback' => 'appendEventFilter'
                 ),
-                
+
                 // Execute event filters
                 array(
                     'page' => '/frontend/',
@@ -65,7 +65,7 @@
                 )
             );
         }
-        
+
         /**
          * Append filters to add to or drop from the storage to the event editor.
          */
@@ -75,7 +75,7 @@
             $context['options'][] = array(
                 'storage-add', in_array('storage-add', $context['selected']), __('Add to Storage')
             );
- 
+
             // Drop from storage
             $context['options'][] = array(
                 'storage-drop', in_array('storage-drop', $context['selected']), __('Drop from Storage')
@@ -83,7 +83,7 @@
         }
 
         /**
-         * If an event has passed successfully, check attached filters and 
+         * If an event has passed successfully, check attached filters and
          * either add the current event data to the storage or drop all event data.
          */
         public function executeEventFilter($context) {
@@ -91,17 +91,17 @@
             $filters = (array)$context['event']->eParamFILTERS;
             $name = $context['event']->ROOTELEMENT;
             $events = array('events' => null);
-           
+
             // Add to storage
             if(in_array('storage-add', $filters)) {
                 $events['events'][$name] = $context['fields'];
                 $storage->set($events);
             }
-            
+
             // Drop from storage
             elseif(in_array('storage-drop', $filters)) {
                 $storage->drop($events);
             }
-        }        
+        }
 
     }
