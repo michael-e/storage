@@ -47,13 +47,11 @@
         }
         
         public function appendEventFilter($context) {
-            $context['options'] = array(
-                array(
-                    'storage-add', in_array('storage-add', $context['selected']), __('Add to Storage')
-                ),
-                array(
-                    'storage-drop', in_array('storage-drop', $context['selected']), __('Drop from Storage')
-                )
+            $context['options'][] = array(
+                'storage-add', in_array('storage-add', $context['selected']), __('Add to Storage')
+            );
+            $context['options'][] = array(
+                'storage-drop', in_array('storage-drop', $context['selected']), __('Drop from Storage')
             );
         }
 
