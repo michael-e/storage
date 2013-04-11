@@ -53,6 +53,16 @@ Dropping items can be done by either passing items that should be removed like i
 
 The second option is suited for complex forms that need to handle set and drop actions simultaneously: if items are appended to the drop action directly, other items will be ignored.
 
+#### Event Redirection
+
+Like default Symphony events, Storage's default event supports adding a hidden input field to redirect the user to another location after the event has passed successfully:
+
+```html
+<input name="redirect" type="hidden" value="example.com" />
+```
+
+This is a useful feature, if you are sending `GET` requests and would like to remove the parameters from the URL after the event executed.
+
 ### Example Output
 
 ```xml
@@ -86,16 +96,6 @@ The second option is suited for complex forms that need to handle set and drop a
 	</storage-action>
 </events>
 ```
-
-### Event Redirection
-
-Like default Symphony events, Storage's default event supports adding a hidden input field to redirect the user to another location after the event has passed successfully:
-
-```html
-<input name="redirect" type="hidden" value="example.com" />
-```
-
-This is a useful feature, if you are sending `GET` requests and would like to remove the parameters from the URL after the event executed.
 
 ## Data Sources
 
