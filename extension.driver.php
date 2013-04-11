@@ -47,22 +47,32 @@
         }
         
         public function appendEventFilter($context) {
-            $handle = 'storage-add';
-            $selected = (in_array($handle, $context['selected']));
-            $context['options'][] = Array(
-                $handle, $selected, __('Add to Storage')
+            $context['options'] = array(
+                array(
+                    'storage-add', in_array('storage-add', $context['selected']), __('Add to Storage')
+                ),
+                array(
+                    'storage-drop', in_array('storage-drop', $context['selected']), __('Drop from Storage')
+                )
             );
         }
 
         public function eventFinalSaveFilter($context) {
             $storage = new Storage();
-            $storage->set(
-                array(
-                    'events' => array(
-                        $context['event']->ROOTELEMENT => $context['fields']
-                    )
-                )
-            );
+            $filters = (array)$context['event']->eParamFILTERS;
+            $name = $context['event']->ROOTELEMENT;
+            $events = array('events' => null);
+           
+            // Add to storage
+            if(in_array('storage-add', $filters)) {
+                    $events['events'][$name] = $context['fields'];
+                $storage->set($events);
+            }
+            
+            // Drop from storage
+            elseif(in_array('storage-drop', $filters)) {
+                $storage->drop($events);
+            }
         }        
 
     }
