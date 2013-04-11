@@ -31,6 +31,12 @@ These actions can be triggered by either sending a `POST` or `GET` request. This
 </form>
 ```
 
+Like default Symphony events, Storage's default event supports adding a hidden input field to redirect the user to another location after the event has passed successfully:
+
+```html
+<input name="redirect" type="hidden" value="example.com" />
+```
+
 ### Example Output
 
 ```xml
