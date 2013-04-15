@@ -13,6 +13,11 @@ All count values must be integers, float values will be considered invalid and w
 Both `count` and `count-positive` keys will not result in items but attributes in the datasource output (see examples). These keys can be used independently, which means even at the same time.
 
 
+## Symphony 2.2.x Support
+
+There is a 2.2.x Git branch of this extension which is compatible with Symphony 2.2.x. It is always __ahead of master__ and will be rebased on master if needed. This approach makes it easier to keep pace with development in the master branch. The downside is that it must be pushed to GitHub with the `--force` flag, thus overwriting history in that branch.
+
+
 ## Events
 
 Storage is a standalone class (`/lib/class.storage.php`) that can be used to create custom events. But the extension bundles a default event that should be sufficient for most cases. It offers four actions:
