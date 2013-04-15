@@ -22,7 +22,7 @@ Storage is a standalone class (`/lib/class.storage.php`) that can be used to cre
 - **drop:** to drop entire groups or single items from the storage
 - **drop-all:** to drop the storage completely
 
-These actions can be triggered by either sending a `POST` or `GET` request, where the latter is especially useful for drop actions. Please be really careful with using the `drop-all` action which will definitely empty your full storage and cannot be undone. 
+These actions can be triggered by either sending a `POST` or `GET` request, where the latter is especially useful for drop actions. Please be really careful with using the `drop-all` action which will definitely empty your full storage and cannot be undone.
 
 ### Example Form
 
