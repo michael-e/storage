@@ -13,6 +13,10 @@
 		</author>
 	</authors>
 	<releases>
+		<release version="1.4.1" date="2013-04-15" min="2.3">
+			- Minor adjustments
+			- First public release
+		</release>
 		<release version="1.4" date="2013-04-10" min="2.3">
 			- Honor redirect param if the event is successful
 			- Enable passing groups or items with the drop action
