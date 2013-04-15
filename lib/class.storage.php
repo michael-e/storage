@@ -2,6 +2,8 @@
 
     /**
      * Storage class
+     *
+     * @author Michael Eichelsdoerfer
      */
     class Storage {
 
