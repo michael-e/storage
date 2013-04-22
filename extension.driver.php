@@ -14,10 +14,10 @@
                 'name' => 'Storage',
                 'version' => '1.0',
                 'release-date' => '2013-03-19',
-                'author'       => array(
-                    'name'    => 'Michael Eichelsdoerfer',
-                    'website' => 'http://www.michael-eichelsdoerfer.de',
-                    'email'   => 'info@michael-eichelsdoerfer.de'
+                'author' => array(
+                    'name' => 'Büro für Web- und Textgestaltung',
+                    'website' => 'http://hananils.de',
+                    'email' => 'buero@hananils.de',
                 )
             );
         }

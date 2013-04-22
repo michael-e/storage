@@ -12,9 +12,9 @@
                 'name' => 'Storage',
                 'description' => 'This is a custom datasource for the Storage extension. <br /><br />For details see the README file.',
                 'author' => array(
-                    'name' => 'Michael Eichelsdoerfer',
-                    'website' => 'http://www.michael-eichelsdoerfer.de',
-                    'email' => 'info@michael-eichelsdoerfer.de',
+                    'name' => 'Büro für Web- und Textgestaltung',
+                    'website' => 'http://hananils.de',
+                    'email' => 'buero@hananils.de',
                 ),
                 'version' => '1.0',
                 'release-date' => '2013-03-19',
