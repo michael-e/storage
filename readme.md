@@ -136,6 +136,12 @@ $ds-storage.basket: 'article1, article2, article3'
 
 Due to missing core features in Symphony 2.2.x, the 2.2.x branch of this extension can not provide the above datasource possibilities. Instead it provides a simpler, hardcoded datasource which will output the complete storage to XML. The XML node is `storage`. The parameter output will use dashes instead of dots to build the group names.
 
+These parameter names unfortunately mean that Symphony can not resolve the auto-generated datasource dependency if you use a Storage output parameter to filter a second datasource. To make it work properly, you will need to edit the second datasource's __dependencies array__. Use `$ds-storage` instead of the full parameter name:
+
+	$this->_dependencies = array('$ds-storage');
+
+(Don't forget to make the `allowEditorToParse()` function return false, so your changes can not be overwritten from the Symphony backend.)
+
 
 ## Example: Shopping Cart with Product Variants
 
