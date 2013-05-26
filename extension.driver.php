@@ -1,6 +1,7 @@
 <?php
 
     require_once EXTENSIONS . '/storage/data-sources/datasource.storage.php';
+    require_once EXTENSIONS . '/storage/lib/class.storage.php';
 
     Class extension_Storage extends Extension {
 
