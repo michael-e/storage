@@ -143,6 +143,26 @@ These parameter names unfortunately mean that Symphony can not resolve the auto-
 (Don't forget to make the `allowEditorToParse()` function return false, so your changes can not be overwritten from the Symphony backend.)
 
 
+## Event Filter
+
+Version 1.4.2 of this extension introduces an event filter which can be used to drop items from the storage if an event is successful (using the EventFinalSaveFilter delegate). This may be useful e.g. for shopping carts: You can drop the cart items from the storage when an order is saved.
+
+You will have to add the event filter to your save event, then add a hidden field to your form like so:
+
+```html
+<form action="" method="post">
+	<label>Foo
+		<input name="fields[foo]" type="text" />
+	</label>
+	<label>Bar
+		<input name="fields[bar]" type="text" />
+	</label>
+	<input type="hidden" name="storage-action[drop][cart]" value="1">
+	<input type="submit" name="action[save-order]" value="Submit" />
+</form>
+```
+
+
 ## Example: Shopping Cart with Product Variants
 
 Say you'd like to create a shopping basket for a store that offers products in different colour variants. Each product should be shown on a separate page where the user can choose a colour and add the desired amount to the basket. A list of all available variants doesn't seem appropriate to you because there might be quite a lot of different colours. So you decide to have a select box with the colours and an input field for the amount:
