@@ -13,6 +13,9 @@
 		</author>
 	</authors>
 	<releases>
+		<release version="1.4.3" date="2013-05-26" min="2.3">
+			- Small fix
+		</release>
 		<release version="1.4.2" date="2013-05-26" min="2.3">
 			- Add event filter to drop items
 			- Bugfix
