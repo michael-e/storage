@@ -31,7 +31,7 @@
         }
 
         protected function execute() {
-            $action_keys = array_keys($_REQUEST['storage-action']);
+            $action_keys = is_array($_REQUEST['storage-action']) ? array_keys($_REQUEST['storage-action']) : array();
             $action = end($action_keys);
 
             $drop_request = $_REQUEST['storage-action']['drop'];
