@@ -8,11 +8,11 @@
     class Storage {
 
         /**
-         * The storage.
+         * This will act as a key.
          *
-         * @var array
+         * @var string
          */
-        private $_storage = array();
+        private $_index;
 
         /**
          * The error log.
@@ -22,11 +22,10 @@
         private $_errors = array();
 
         /**
-         * Initialise storage, retaining existing data.
+         * Initialise storage
          */
-        public function __construct() {
-            $this->_storage = &$_SESSION['storage'];
-            if(!is_array($this->_storage)) $this->_storage = (array)$this->_storage;
+        public function __construct($index = 'storage') {
+            $this->_index = $index;
             if (session_id() == "") session_start();
         }
 
@@ -42,12 +41,12 @@
 
             // Return filtered storage
             if(isset($group)) {
-                return $this->_storage[$group];
+                return $_SESSION[$this->_index][$group];
             }
 
             // Return complete storage
             else {
-                return $this->_storage;
+                return $_SESSION[$this->_index];
             }
         }
 
@@ -60,7 +59,7 @@
          *  If set to true, item counts will be recalculated
          */
         public function set($items = array()) {
-            $this->setStorage($this->_storage, $items, false);
+            $this->setStorage($_SESSION[$this->_index], $items, false);
         }
 
         /**
@@ -70,7 +69,7 @@
          *  Data
          */
         public function setCount($items = array()) {
-            $this->setStorage($this->_storage, $items, true);
+            $this->setStorage($_SESSION[$this->_index], $items, true);
         }
 
         /**
@@ -80,14 +79,14 @@
          *  The items that should be dropped
          **/
         public function drop($items = array()) {
-            $this->dropFromArray($this->_storage, $items);
+            $this->dropFromArray($_SESSION[$this->_index], $items);
         }
 
         /**
          * Drop all items from the storage.
          */
         public function dropAll() {
-            $this->_storage = array();
+            $_SESSION[$this->_index] = array();
         }
 
         /**
@@ -104,7 +103,7 @@
          *  Return all existing groups as array
          */
         public function getGroups() {
-            return array_keys($this->_storage);
+            return array_keys($_SESSION[$this->_index]);
         }
 
         /**
