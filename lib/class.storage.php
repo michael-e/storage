@@ -25,9 +25,9 @@
          * Initialise storage, retaining existing data.
          */
         public function __construct() {
-            session_start();
             $this->_storage = &$_SESSION['storage'];
             if(!is_array($this->_storage)) $this->_storage = (array)$this->_storage;
+            if (session_id() == "") session_start();
         }
 
         /**
