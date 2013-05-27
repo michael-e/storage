@@ -73,20 +73,24 @@
         }
 
         /**
-         * Drop given items from the storage.
+         * Drop given items from the storage. If the storage array
+         * becomes empty, unset it.
          *
          * @param array $items
          *  The items that should be dropped
          **/
         public function drop($items = array()) {
             $this->dropFromArray($_SESSION[$this->_index], $items);
+            if (empty($_SESSION[$this->_index])) {
+                unset($_SESSION[$this->_index]);
+            }
         }
 
         /**
          * Drop all items from the storage.
          */
         public function dropAll() {
-            $_SESSION[$this->_index] = array();
+            unset($_SESSION[$this->_index]);
         }
 
         /**
