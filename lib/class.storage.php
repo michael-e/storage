@@ -107,7 +107,7 @@
          *  Return all existing groups as array
          */
         public function getGroups() {
-            if(is_array($_SESSION[$this->_index]) {
+            if(is_array($_SESSION[$this->_index])) {
                 return array_keys($_SESSION[$this->_index]);
             }
             else {
