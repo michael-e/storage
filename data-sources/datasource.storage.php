@@ -55,6 +55,7 @@
 
             $fieldset = new XMLElement('fieldset');
             $fieldset->setAttribute('class', 'settings contextual ' . __CLASS__);
+            $fieldset->setAttribute('data-context', 'storage');
             $fieldset->appendChild(new XMLElement('legend', self::getName()));
 
             // Groups
