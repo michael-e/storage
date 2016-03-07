@@ -2,7 +2,7 @@
 <extension id="storage" status="released" xmlns="http://symphony-cms.com/schemas/extension/1.0">
 	<name>Storage</name>
 	<description>Storing data in the session.</description>
-	<repo type="github">https://github.com/hananils/storage</repo>
+	<repo type="github">https://github.com/michael-e/storage</repo>
 	<authors>
 		<author>
 			<name github="hananils" symphony="hananils">Büro für Web- und Textgestaltung</name>
