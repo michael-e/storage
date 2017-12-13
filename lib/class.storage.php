@@ -181,7 +181,7 @@
          *  The second (e.g. request data) array
          **/
         function dropFromArray(&$array1 = array(), $array2 = array()) {
-            if(is_array($array2)) {
+            if(is_array($array1) && is_array($array2)) {
                 foreach($array2 as $key => $value) {
                     if(is_array($value) && array_key_exists($key, $array1)) {
                         $this->dropFromArray($array1[$key], $value);
