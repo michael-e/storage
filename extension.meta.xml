@@ -14,6 +14,9 @@
 		</author>
 	</authors>
 	<releases>
+		<release version="1.6.3" date="2018-01-23" min="2.3.x" max="2.x.x">
+			* [#67](https://github.com/michael-e/storage/issues/67) Fix cleanup when dropping items
+		</release>
 		<release version="1.6.2" date="2017-12-13" min="2.3.x" max="2.x.x">
 			* [#66](https://github.com/michael-e/storage/pull/66) Fix for actions on non-existing storage
 		</release>
