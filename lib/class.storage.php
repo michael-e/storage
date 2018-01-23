@@ -80,8 +80,8 @@ class Storage
     }
 
     /**
-     * Drop given items from the storage. If the storage array
-     * becomes empty, unset it.
+     * Drop given items from the storage and clean up: If a group becomes empty,
+     * unset it. If the storage array becomes empty, unset it.
      *
      * @param array $items
      *  The items that should be dropped
@@ -89,6 +89,14 @@ class Storage
     public function drop($items = array())
     {
         $this->dropFromArray($_SESSION[$this->_index], $items);
+
+        // Unset empty groups
+        foreach ($this->getGroups() as $group) {
+            if (empty($_SESSION[$this->_index][$group])) {
+                unset($_SESSION[$this->_index][$group]);
+            }
+        }
+        // Unset empty storage
         if (empty($_SESSION[$this->_index])) {
             unset($_SESSION[$this->_index]);
         }
