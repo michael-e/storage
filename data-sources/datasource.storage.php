@@ -4,25 +4,30 @@ require_once TOOLKIT . '/class.datasource.php';
 require_once FACE . '/interface.datasource.php';
 require_once EXTENSIONS . '/storage/lib/class.storage.php';
 
-Class StorageDatasource extends DataSource implements iDatasource {
-
-    public static function getName() {
+class StorageDatasource extends DataSource implements iDatasource
+{
+    public static function getName()
+    {
         return __('Storage');
     }
 
-    public static function getClass() {
+    public static function getClass()
+    {
         return __CLASS__;
     }
 
-    public function getSource() {
+    public function getSource()
+    {
         return self::getClass();
     }
 
-    public static function getTemplate(){
+    public static function getTemplate()
+    {
         return EXTENSIONS . '/storage/templates/blueprints.datasource.tpl';
     }
 
-    public function settings() {
+    public function settings()
+    {
         $settings = array();
 
         $settings[self::getClass()]['params'] = $this->dsParamPARAMS;
@@ -31,9 +36,9 @@ Class StorageDatasource extends DataSource implements iDatasource {
         return $settings;
     }
 
-/*-------------------------------------------------------------------------
-    Utilities
--------------------------------------------------------------------------*/
+    /*-------------------------------------------------------------------------
+        Utilities
+    -------------------------------------------------------------------------*/
 
     /**
      * Returns the source value for display in the Datasources index
@@ -42,15 +47,17 @@ Class StorageDatasource extends DataSource implements iDatasource {
      *  The path to the Datasource file
      * @return string
      */
-    public function getSourceColumn($handle) {
+    public function getSourceColumn($handle)
+    {
         return 'Storage';
     }
 
-/*-------------------------------------------------------------------------
-    Editor
--------------------------------------------------------------------------*/
+    /*-------------------------------------------------------------------------
+        Editor
+    -------------------------------------------------------------------------*/
 
-    public static function buildEditor(XMLElement $wrapper, array &$errors = array(), array $settings = null, $handle = null) {
+    public static function buildEditor(XMLElement $wrapper, array &$errors = array(), array $settings = null, $handle = null)
+    {
         $settings = $settings[self::getClass()];
 
         $fieldset = new XMLElement('fieldset');
@@ -68,9 +75,9 @@ Class StorageDatasource extends DataSource implements iDatasource {
         $storage = new Storage();
         $groups = $storage->getGroups();
 
-        if(!empty($groups)) {
+        if (!empty($groups)) {
             $tags = new XMLElement('ul', null, array('class' => 'tags'));
-            foreach($groups as $group) {
+            foreach ($groups as $group) {
                 $tags->appendChild(new XMLElement('li', $group));
             }
             $fieldset->appendChild($tags);
@@ -78,7 +85,7 @@ Class StorageDatasource extends DataSource implements iDatasource {
 
         // Output parameters
         $input = Widget::Input('fields[' . self::getClass() . '][params]', '1', 'checkbox');
-        if(intval($settings['params']) == 1) {
+        if (intval($settings['params']) == 1) {
             $input->setAttribute('checked', 'checked');
         }
         $label = Widget::Label();
@@ -88,46 +95,51 @@ Class StorageDatasource extends DataSource implements iDatasource {
         $wrapper->appendChild($fieldset);
     }
 
-    public static function validate(array &$settings, array &$errors) {
+    public static function validate(array &$settings, array &$errors)
+    {
         return true;
     }
 
-    public static function prepare(array $settings, array $params, $template) {
+    public static function prepare(array $settings, array $params, $template)
+    {
         $settings = $settings[self::getClass()];
 
         // Groups
         $groups = explode(',', $settings['groups']);
-        if(!empty($groups)) {
-            foreach($groups as $group) {
-                if(trim($group) == '') continue;
+        if (!empty($groups)) {
+            foreach ($groups as $group) {
+                if (trim($group) == '') {
+                    continue;
+                }
                 $string .= "\t\t\t'" . trim($group) . "'," . PHP_EOL;
             }
             $template = str_replace('<!-- GROUPS -->', trim($string), $template);
         }
 
         // Return template with settings
-        return sprintf($template,
+        return sprintf(
+            $template,
             $params['rootelement'],
             $settings['params']
         );
     }
 
-/*-------------------------------------------------------------------------
-    Execution
--------------------------------------------------------------------------*/
+    /*-------------------------------------------------------------------------
+        Execution
+    -------------------------------------------------------------------------*/
 
-    public function grab(array &$param_pool = null) {
+    public function grab(array &$param_pool = null)
+    {
         $result = new XMLElement($this->dsParamROOTELEMENT);
         $storage = new Storage();
         $groups = array();
 
         // Get groups
-        if(!empty($this->dsParamGROUPS)) {
-            foreach($this->dsParamGROUPS as $id) {
+        if (!empty($this->dsParamGROUPS)) {
+            foreach ($this->dsParamGROUPS as $id) {
                 $groups[$id] = $storage->get($id);
             }
-        }
-        else {
+        } else {
             $groups = $storage->get();
         }
 
@@ -135,8 +147,8 @@ Class StorageDatasource extends DataSource implements iDatasource {
         Storage::buildXML($result, $storage->get(), true);
 
         // Add output parameters
-        if(intval($this->dsParamPARAMS) == 1 && is_array($groups)) {
-            foreach($groups as $name => $values) {
+        if (intval($this->dsParamPARAMS) == 1 && is_array($groups)) {
+            foreach ($groups as $name => $values) {
                 $param_pool['ds-' . $this->dsParamROOTELEMENT . '.' . $name] = array_keys((array)$values);
             }
         }

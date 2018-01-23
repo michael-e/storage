@@ -3,11 +3,12 @@
 require_once EXTENSIONS . '/storage/data-sources/datasource.storage.php';
 require_once EXTENSIONS . '/storage/lib/class.storage.php';
 
-Class extension_Storage extends Extension {
-
+class extension_Storage extends Extension
+{
     private static $provides = array();
 
-    public static function registerProviders() {
+    public static function registerProviders()
+    {
         self::$provides = array(
             'data-sources' => array(
                 'StorageDatasource' => StorageDatasource::getName()
@@ -17,12 +18,17 @@ Class extension_Storage extends Extension {
         return true;
     }
 
-    public static function providerOf($type = null) {
+    public static function providerOf($type = null)
+    {
         self::registerProviders();
 
-        if(is_null($type)) return self::$provides;
+        if (is_null($type)) {
+            return self::$provides;
+        }
 
-        if(!isset(self::$provides[$type])) return array();
+        if (!isset(self::$provides[$type])) {
+            return array();
+        }
 
         return self::$provides[$type];
     }
@@ -32,8 +38,8 @@ Class extension_Storage extends Extension {
      *
      * @return array
      */
-    public function getSubscribedDelegates(){
-
+    public function getSubscribedDelegates()
+    {
         return array(
             array(
                 'page'     => '/blueprints/events/new/',
@@ -59,7 +65,8 @@ Class extension_Storage extends Extension {
      * @param string $context
      * @return void
      */
-    public function appendEventFilter($context){
+    public function appendEventFilter($context)
+    {
         $selected = !is_array($context['selected']) ? array() : $context['selected'];
 
         $context['options'][] = array(
@@ -76,16 +83,15 @@ Class extension_Storage extends Extension {
      * @param string $context
      * @return void
      */
-    public function eventFinalSaveFilter($context){
-        if(in_array('storage-drop', $context['event']->eParamFILTERS)){
-
+    public function eventFinalSaveFilter($context)
+    {
+        if (in_array('storage-drop', $context['event']->eParamFILTERS)) {
             $drop_request = $_REQUEST['storage-action']['drop'];
 
-            if(is_array($drop_request)) {
+            if (is_array($drop_request)) {
                 $s = new Storage();
                 $s->drop($drop_request);
             }
         }
     }
-
 }

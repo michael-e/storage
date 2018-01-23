@@ -3,19 +3,21 @@
 require_once(EXTENSIONS . '/storage/data-sources/datasource.storage.php');
 
 Class datasource<!-- CLASS NAME --> extends StorageDatasource {
-
+{
     public $dsParamROOTELEMENT = '%s';
     public $dsParamPARAMS = %d;
     public $dsParamGROUPS = array(
         <!-- GROUPS -->
     );
 
-    public function __construct($env=NULL, $process_params=true){
+    public function __construct($env=null, $process_params=true)
+    {
         parent::__construct($env, $process_params);
         $this->_dependencies = array(<!-- DS DEPENDENCY LIST -->);
     }
 
-    public function about(){
+    public function about()
+    {
         return array(
             'name' => '<!-- NAME -->',
             'author' => array(
@@ -27,8 +29,8 @@ Class datasource<!-- CLASS NAME --> extends StorageDatasource {
         );
     }
 
-    public function allowEditorToParse(){
+    public function allowEditorToParse()
+    {
         return true;
     }
-
 }

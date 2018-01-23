@@ -3,11 +3,12 @@
 require_once(TOOLKIT . '/class.event.php');
 require_once(EXTENSIONS . '/storage/lib/class.storage.php');
 
-Class eventstorage_action extends Event {
-
+class eventstorage_action extends Event
+{
     public $ROOTELEMENT = 'storage-action';
 
-    public static function about() {
+    public static function about()
+    {
         return array(
             'name' => 'Storage Action',
             'author' => array(
@@ -18,19 +19,25 @@ Class eventstorage_action extends Event {
         );
     }
 
-    public static function allowEditorToParse() {
+    public static function allowEditorToParse()
+    {
         return false;
     }
 
-    public static function documentation() {
+    public static function documentation()
+    {
         return '<p>This is a custom event for the Storage extension. <br />For details see the README file.</p>';
     }
 
-    public function load() {
-        if(isset($_REQUEST['storage-action'])) return $this->execute();
+    public function load()
+    {
+        if (isset($_REQUEST['storage-action'])) {
+            return $this->execute();
+        }
     }
 
-    protected function execute() {
+    protected function execute()
+    {
         $action_keys = is_array($_REQUEST['storage-action']) ? array_keys($_REQUEST['storage-action']) : array();
         $action = end($action_keys);
 
@@ -40,7 +47,7 @@ Class eventstorage_action extends Event {
 
         $s = new Storage();
         $errors = array();
-        switch($action) {
+        switch ($action) {
             case 'set':
                 $s->set($items);
                 $errors = $s->getErrors();
@@ -50,10 +57,9 @@ Class eventstorage_action extends Event {
                 $errors = $s->getErrors();
                 break;
             case 'drop':
-                if(is_array($drop_request)) {
+                if (is_array($drop_request)) {
                     $s->drop($drop_request);
-                }
-                else {
+                } else {
                     $s->drop($items);
                 }
                 $errors = $s->getErrors();
@@ -70,14 +76,15 @@ Class eventstorage_action extends Event {
         $result = new XMLElement($this->ROOTELEMENT);
         $result->setAttribute('type', $action);
 
-        if(!empty($errors)) {
+        if (!empty($errors)) {
             $result->setAttribute('result', 'error');
-            foreach($errors as $error) {
+            foreach ($errors as $error) {
                 $result->appendChild(new XMLElement('message', $error));
             }
-        }
-        else {
-            if(isset($_REQUEST['redirect'])) redirect($_REQUEST['redirect']);
+        } else {
+            if (isset($_REQUEST['redirect'])) {
+                redirect($_REQUEST['redirect']);
+            }
             $result->setAttribute('result', 'success');
         }
 
@@ -87,5 +94,4 @@ Class eventstorage_action extends Event {
 
         return $result;
     }
-
 }
