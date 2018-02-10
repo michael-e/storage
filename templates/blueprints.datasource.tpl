@@ -3,7 +3,7 @@
 require_once(EXTENSIONS . '/storage/data-sources/datasource.storage.php');
 
 Class datasource<!-- CLASS NAME --> extends StorageDatasource {
-{
+
     public $dsParamROOTELEMENT = '%s';
     public $dsParamPARAMS = %d;
     public $dsParamGROUPS = array(
