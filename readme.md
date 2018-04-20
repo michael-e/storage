@@ -162,6 +162,8 @@ You will have to add the event filter to your save event, then add a hidden fiel
 </form>
 ```
 
+The hidden field's naming convention is the same as for the Storage event (see above). So when the event filter is used, the Storage event must not be attached to the page.
+
 
 ## Example: Shopping Cart with Product Variants
 
