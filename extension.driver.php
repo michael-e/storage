@@ -5,7 +5,7 @@ require_once EXTENSIONS . '/storage/lib/class.storage.php';
 
 class extension_Storage extends Extension
 {
-    private static $provides = array();
+    protected static $provides = array();
 
     public static function registerProviders()
     {
