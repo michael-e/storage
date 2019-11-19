@@ -76,7 +76,7 @@ class StorageDatasource extends DataSource implements iDatasource
         $groups = $storage->getGroups();
 
         if (!empty($groups)) {
-            $tags = new XMLElement('ul', null, array('class' => 'tags'));
+            $tags = new XMLElement('ul', null, array('class' => 'tags', 'data-interactive' => 'data-interactive'));
             foreach ($groups as $group) {
                 $tags->appendChild(new XMLElement('li', $group));
             }
